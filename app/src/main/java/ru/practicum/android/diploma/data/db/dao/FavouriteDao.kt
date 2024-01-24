@@ -8,7 +8,7 @@ import androidx.room.Query
 import ru.practicum.android.diploma.data.db.entity.VacancyEntity
 
 @Dao
-interface FavoriteDao {
+interface FavouriteDao {
     @Insert(entity = VacancyEntity::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun addFavoriteVacancy(vacancyEntity: VacancyEntity)
 
@@ -19,5 +19,5 @@ interface FavoriteDao {
     suspend fun isFavorite(id: String): Boolean
 
     @Delete(entity = VacancyEntity::class)
-    suspend fun deleteFavoriteVacancy(trackEntity: VacancyEntity)
+    suspend fun deleteFavoriteVacancy(vacancyEntity: String)
 }

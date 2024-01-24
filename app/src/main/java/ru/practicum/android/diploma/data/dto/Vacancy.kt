@@ -8,7 +8,7 @@ import ru.practicum.android.diploma.domain.models.`object`.KeySkills
 import ru.practicum.android.diploma.domain.models.`object`.Salary
 import ru.practicum.android.diploma.domain.models.`object`.Schedule
 
-data class VacancyDto(
+data class Vacancy(
     val id: String,
     val area: Area,
     val contacts: Contacts?,

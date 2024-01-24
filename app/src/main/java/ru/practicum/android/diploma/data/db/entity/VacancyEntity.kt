@@ -14,15 +14,15 @@ import ru.practicum.android.diploma.domain.models.`object`.Schedule
 data class VacancyEntity(
     @PrimaryKey(autoGenerate = false)
     val id: String,
-    // val area: Area?,
-    // val contacts: Contacts?,
+    val area: Area?,
+    val contacts: Contacts?,
     val description: String,
-    // val employment: Employment?,
-    //  val experience: Experience?,
-    //   val keySkills: ArrayList<KeySkills>,
+    val employment: Employment?,
+    val experience: Experience?,
+    val keySkills: ArrayList<KeySkills>,
     val name: String,
-    //  val salary: Salary?,
-    //  val schedule: Schedule?,
+    val salary: Salary?,
+    val schedule: Schedule?,
     val isFavorite: Boolean = false,
     val date: Long = 0L
 )
