@@ -1,4 +1,5 @@
 package ru.practicum.android.diploma.domain.models.`object`
 
-class KeySkills {
-}
+data class KeySkills(
+    val name: String
+)

@@ -17,7 +17,7 @@ class FavouriteVacancyRepositoryImpl(
         }
 
         override suspend fun putFavourite(vacancy: Vacancy) {
-            var converted: VacancyEntity = convertor.map(vacancy)
+            val converted: VacancyEntity = convertor.map(vacancy)
             vacancy.isFavourite = true
             db.favoriteVacancyDao().addFavoriteVacancy(converted)
         }
