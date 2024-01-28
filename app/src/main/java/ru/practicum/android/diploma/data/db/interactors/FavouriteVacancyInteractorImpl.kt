@@ -1,7 +1,7 @@
-package ru.practicum.android.diploma.data.db.Interactors
+package ru.practicum.android.diploma.data.db.interactors
 
 import kotlinx.coroutines.flow.Flow
-import ru.practicum.android.diploma.data.db.Repositories.FavouriteVacancyRepository
+import ru.practicum.android.diploma.data.db.repositories.FavouriteVacancyRepository
 import ru.practicum.android.diploma.data.dto.Vacancy
 
 class FavouriteVacancyInteractorImpl(private val repository: FavouriteVacancyRepository) :
@@ -16,11 +16,5 @@ class FavouriteVacancyInteractorImpl(private val repository: FavouriteVacancyRep
 
     override suspend fun favouritesGet(): Flow<List<Vacancy>> {
         return repository.getFavourites() as Flow<List<Vacancy>>
-        TODO( "хз будет ли так работать, надо тестировать")
     }
-
-    /*override suspend fun favouritesCheck(id: Long): Flow<Boolean> {
-        return repository.checkOnLike(id)
-     }
-    */
 }

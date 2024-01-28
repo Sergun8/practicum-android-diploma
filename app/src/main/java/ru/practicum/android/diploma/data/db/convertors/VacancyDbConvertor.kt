@@ -2,7 +2,6 @@ package ru.practicum.android.diploma.data.db.convertors
 
 import ru.practicum.android.diploma.data.db.entity.VacancyEntity
 import ru.practicum.android.diploma.data.dto.Vacancy
-import ru.practicum.android.diploma.data.dto.VacancyDto
 
 class VacancyDbConvertor {
 
