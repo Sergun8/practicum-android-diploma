@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.data.db.Repositories
+package ru.practicum.android.diploma.data.db.repositories
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
