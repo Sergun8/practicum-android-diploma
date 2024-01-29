@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
     id("kotlin-kapt")
-    id("kotlin-parcelize")
+    id ("kotlin-parcelize")
 }
 android {
     namespace = "ru.practicum.android.diploma"
@@ -48,6 +48,7 @@ dependencies {
     // UI layer libraries
     implementation(libs.ui.material)
     implementation(libs.ui.constraintLayout)
+    implementation(libs.room.common)
 
     // region Unit tests
     testImplementation(libs.unitTests.junit)
