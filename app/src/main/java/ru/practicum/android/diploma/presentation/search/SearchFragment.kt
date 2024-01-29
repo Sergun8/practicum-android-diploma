@@ -23,8 +23,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
-import ru.practicum.android.diploma.domain.models.Vacancy
-import ru.practicum.android.diploma.presentation.vacancy.VacancyFragment
+import ru.practicum.android.diploma.domain.models.Vacancy1
 import ru.practicum.android.diploma.ui.search.VacancyAdapter
 
 class SearchFragment : Fragment() {
@@ -114,7 +113,7 @@ class SearchFragment : Fragment() {
         return current
     }
 
-    private fun clickAdapting(item: Vacancy) {
+    private fun clickAdapting(item: Vacancy1) {
         Log.d("SearchFragment", "Click on the track")
         isClickAllowed = false
         val bundle = Bundle()
@@ -235,7 +234,7 @@ class SearchFragment : Fragment() {
         Log.d("Loading", "Loading was started")
     }
 
-    private fun searchIsOk(data: List<Vacancy>) {
+    private fun searchIsOk(data: List<Vacancy1>) {
         binding.progressBar.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
         binding.notInternetImage.visibility = View.GONE

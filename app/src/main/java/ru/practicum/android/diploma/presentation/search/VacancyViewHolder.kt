@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.Vacancy1
 
 class VacancyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -16,7 +16,7 @@ class VacancyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val tvSalary: TextView = itemView.findViewById(R.id.tv_salary)
     private val ivUrl100: ImageView = itemView.findViewById(R.id.iv_logo)
 
-    fun bind(item: Vacancy) {
+    fun bind(item: Vacancy1) {
         tvDescription.text = item.name
         tvCompanyName.text = item.employmentName
         item.salaryCurrency?.let { tvSalary.text = item.salaryCurrency }
