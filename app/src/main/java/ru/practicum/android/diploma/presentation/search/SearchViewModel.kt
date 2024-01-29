@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.domain.models.Vacancy1
+import ru.practicum.android.diploma.domain.models.Vacancy
 
 class SearchViewModel(
     private var searchInteractor: SearchInteractor
@@ -18,7 +18,7 @@ class SearchViewModel(
     }
 
 
-    private var trackResultList: MutableLiveData<List<Vacancy1>?> = MutableLiveData<List<Vacancy1>?>()
+    private var trackResultList: MutableLiveData<List<Vacancy>?> = MutableLiveData<List<Vacancy>?>()
 
     fun searchRequesting(searchExpression: String) {
         if (searchExpression.isNotEmpty()) {
@@ -47,8 +47,8 @@ class SearchViewModel(
         }
     }
 
-    private var vacancy1HistoryList: MutableLiveData<List<Vacancy1>> =
-        MutableLiveData<List<Vacancy1>>().apply {
+    private var vacancyHistoryList: MutableLiveData<List<Vacancy>> =
+        MutableLiveData<List<Vacancy>>().apply {
             value = emptyList()
         }
 
