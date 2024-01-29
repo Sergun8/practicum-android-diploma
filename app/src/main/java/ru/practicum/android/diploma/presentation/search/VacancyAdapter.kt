@@ -6,8 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-class VacancyAdapter(private val clickListener: VacancyClickListener) : RecyclerView.Adapter<VacancyViewHolder>() {
-    private var vacancyList = ArrayList<Vacancy>()
+class VacancyAdapter(
+    private val clickListener: VacancyClickListener,
+    private val longClickListener: LongDurationPress
+) : RecyclerView.Adapter<VacancyViewHolder>() {
+    private var vacancyList: List<Vacancy> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VacancyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.vacancy, parent, false)
@@ -25,5 +28,13 @@ class VacancyAdapter(private val clickListener: VacancyClickListener) : Recycler
 
     fun interface VacancyClickListener {
         fun onTrackClick(vacancy: Vacancy)
+    }
+
+    fun setItems(items: List<Vacancy>) {
+        this.vacancyList = items
+        notifyDataSetChanged()
+    }
+    fun interface LongDurationPress {
+        fun onLongClick(vacancy: Vacancy)
     }
 }
