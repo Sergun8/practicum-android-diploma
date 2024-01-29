@@ -2,25 +2,30 @@ package ru.practicum.android.diploma.domain.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import ru.practicum.android.diploma.domain.models.`object`.Area
-import ru.practicum.android.diploma.domain.models.`object`.Contacts
-import ru.practicum.android.diploma.domain.models.`object`.Employment
-import ru.practicum.android.diploma.domain.models.`object`.Experience
-import ru.practicum.android.diploma.domain.models.`object`.KeySkills
-import ru.practicum.android.diploma.domain.models.`object`.Salary
-import ru.practicum.android.diploma.domain.models.`object`.Schedule
+
 @Parcelize
 data class Vacancy(
     val id: String,
-    val area: Area,
-    val contacts: Contacts?,
+    val areaId: String?,
+    val areaName: String?,
+    val areaUrl: String?,
+    val contactsCallTrackingEnabled: Boolean?,
+    val contactsEmail: String?,
+    val contactsName: String?,
+    val contactsPhones: List<String>?,
     val description: String,
-    val employment: Employment?,
-    val experience: Experience?,
-    val keySkills: ArrayList<KeySkills>,
+    val employmentId: String?,
+    val employmentName: String?,
+    val experienceId: String?,
+    val experienceName: String?,
+    val keySkillsNames: List<String>,
     val name: String,
-    val salary: Salary?,
-    val schedule: Schedule?,
+    val salaryCurrency: String?,
+    val salaryFrom: Int?,
+    val salaryGross: Boolean?,
+    val salaryTo: Int?,
+    val scheduleId: String?,
+    val scheduleName: String,
     var isFavourite: Boolean
 ): Parcelable {
     override fun equals(other: Any?): Boolean {

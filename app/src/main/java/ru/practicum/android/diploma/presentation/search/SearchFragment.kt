@@ -21,8 +21,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.presentation.vacancy.VacancyFragment
 import ru.practicum.android.diploma.ui.search.VacancyAdapter
 
 class SearchFragment : Fragment() {
@@ -119,8 +121,7 @@ class SearchFragment : Fragment() {
         bundle.putParcelable("vacancy", item)
         Log.d("vacancy", "$item")
         val navController = findNavController()
-        TODO("Навигация на страницу вакансии")
-        //navController.navigate("toVacancy", bundle)
+        navController.navigate(R.id.vacancyFragment, bundle)
     }
 
     private fun clearButtonVisibility(s: CharSequence?): Int {
