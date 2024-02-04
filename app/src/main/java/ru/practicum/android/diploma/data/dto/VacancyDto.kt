@@ -12,3 +12,34 @@ data class VacancyDto(
     val name: String,
     val salary: SalaryDto?,
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

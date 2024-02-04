@@ -16,7 +16,7 @@ interface HhApi {
     suspend fun jobSearch(
         @Query("text") query: String,
         @Query("page") page: Int,
-        @Query("per_page") perPage: Int
+        @Query("per_page") perPage: Int = 20
     ): JobResponse
     @Headers(
         "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}",
