@@ -1,3 +1,11 @@
 package ru.practicum.android.diploma.data.search.network
 
-data class JobSearchRequest(val expression: String, val page: Int, val perPage: Int)
+sealed interface JobSearchRequest {
+    data class VacancySearchRequest(
+        val query: String,
+        val page: Int,
+    ) : JobSearchRequest
+
+}
+
+//data class JobSearchRequest(val expression: String = "Job", val page: Int)

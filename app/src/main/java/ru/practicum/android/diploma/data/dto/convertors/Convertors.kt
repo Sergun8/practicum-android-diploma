@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.data.dto.convertors
 
+import ru.practicum.android.diploma.data.dto.DetailVacancyDto
 import ru.practicum.android.diploma.data.dto.VacancyDto
 import ru.practicum.android.diploma.data.dto.field.AreaDto
 import ru.practicum.android.diploma.domain.models.Vacancy
@@ -8,27 +9,10 @@ class Convertors {
     fun convertorToVacancy(vacancy: VacancyDto): Vacancy {
         return Vacancy(
             id = vacancy.id,
-            areaId = "",
-            areaName = createAreaName(vacancy.area),
-            areaUrl = "",
-            contactsCallTrackingEnabled = false,
-            contactsEmail = "",
-            contactsName = "",
-            contactsPhones = listOf<String>(),
-            description = "",
-            employmentId = "",
-            employmentName = "",
-            experienceId = "",
-            experienceName = "",
-            keySkillsNames = listOf(),
+        //    area = createAreaName(vacancy.area),
             name = vacancy.name,
-            salaryCurrency = "",
-            salaryFrom = 10,
-            salaryGross = false,
-            salaryTo = 20,
-            scheduleId = "",
-            scheduleName = "",
-        )
+         //   salary = "null"
+            )
     }
 
     private fun createAreaName(area: AreaDto?): String? {

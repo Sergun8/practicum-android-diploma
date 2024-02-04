@@ -9,25 +9,25 @@ import ru.practicum.android.diploma.data.dto.response.CountryResponse
 import ru.practicum.android.diploma.data.dto.response.IndustryResponse
 import ru.practicum.android.diploma.data.dto.response.JobResponse
 import ru.practicum.android.diploma.data.dto.response.RegionResponse
-import ru.practicum.android.diploma.data.dto.response.VacancyResponse
 
 interface HhApi {
+
+    @GET("/vacancies")
+    suspend fun jobSearch(
+        @Query("text") query: String,
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int = 20,
+    ): JobResponse
+  /*
     @GET("vacancies?text=query")
     suspend fun jobSearch(
         @Query("text") query: String,
         @Query("page") page: Int,
-        @Query("per_page") perPage: Int
+        @Query("per_page") perPage: Int = 20 //Константа 20
     ): JobResponse
-    @Headers(
-        "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}",
-        "HH-User-Agent: HHLiteJob (ya.tarannov@yandex.ru)"
-    )
-    @GET("vacancies")
-    suspend fun jobSearch(
-        @Path("vacancies") vacancyId: String
-    ): VacancyResponse
+    */
     @GET("vacancies/{vacancy_id}/similar_vacancies")
-    suspend fun detailVacancy(@Path("vacancy_id") vacancyId: String): VacancyResponse
+    suspend fun detailVacancy(@Path("vacancy_id") vacancyId: String): JobResponse
     @GET("areas/countries")
     suspend fun filterCountry(): CountryResponse
     @GET("areas/{area_id}")

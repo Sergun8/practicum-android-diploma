@@ -5,5 +5,5 @@ import ru.practicum.android.diploma.domain.models.ErrorNetwork
 import ru.practicum.android.diploma.domain.models.Vacancy
 
 interface SearchInteractor {
-    fun search(expression: String): Flow<Pair<List<Vacancy>?, ErrorNetwork?>>
+    fun search(expression: String, page: Int): Flow<Pair<List<Vacancy>?, ErrorNetwork?>>
 }
