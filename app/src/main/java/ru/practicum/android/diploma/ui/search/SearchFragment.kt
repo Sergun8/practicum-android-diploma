@@ -69,7 +69,7 @@ class SearchFragment : Fragment() {
                 binding.closeImage.visibility = VISIBLE
                 binding.searchImage.visibility = GONE
             }
-            viewModel.searchRequest(query.toString())
+            viewModel.search(query.toString())
         }
 
         binding.inputSearchForm.requestFocus()

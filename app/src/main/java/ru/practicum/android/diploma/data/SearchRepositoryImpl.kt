@@ -3,35 +3,23 @@ package ru.practicum.android.diploma.data
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.Resource
-import ru.practicum.android.diploma.data.dto.convertors.Convertors
-import ru.practicum.android.diploma.data.dto.response.VacancyResponse
-import ru.practicum.android.diploma.data.network.VacancyRequest
+import ru.practicum.android.diploma.Resource.*
+import ru.practicum.android.diploma.data.search.network.JobSearchRequest
 import ru.practicum.android.diploma.data.search.network.NetworkClient
 import ru.practicum.android.diploma.domain.api.SearchRepository
 import ru.practicum.android.diploma.domain.models.ErrorNetwork
-import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.SearchList
 
 class SearchRepositoryImpl(
     private val networkClient: NetworkClient
 ) : SearchRepository {
 
-    override fun search(expression: String): Flow<Resource<List<Vacancy>>> = flow {
-        val response = networkClient.doRequest(dto = VacancyRequest(expression))
-        when (response.resultCode) {
-            NO_CONNECTIVITY_MESSAGE -> {
-                emit(Resource.Error(ErrorNetwork.NO_CONNECTIVITY_MESSAGE))
-            }
-
-            GUD -> {
-                emit(Resource.Success((response as VacancyResponse).results.map {
-                    Convertors().convertorToVacancy(it)
-                }))
-            }
-
-            else -> {
-                emit(Resource.Error(ErrorNetwork.SERVER_ERROR_MESSAGE))
-            }
-
+    override fun search(expression: String, page: Int): Flow<Resource<SearchList>> = flow {
+        val response = networkClient.doRequest(JobSearchRequest.VacancySearchRequest(expression, page))
+        if (response.resultCode == 200) {
+            emit(Success(response as SearchList))
+        } else {
+            emit(Error(ErrorNetwork.SERVER_ERROR_MESSAGE))
         }
     }
 
@@ -40,3 +28,7 @@ class SearchRepositoryImpl(
         private const val GUD = 200
     }
 }
+
+
+
+
