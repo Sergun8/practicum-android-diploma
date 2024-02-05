@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
+import ru.practicum.android.diploma.domain.models.ErrorNetwork
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.debounce
 
@@ -27,9 +28,7 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
     private var vacancyClickDebounce: ((Vacancy) -> Unit)? = null
-    private var vacancyAdapter = VacancyAdapter {
-        vacancyClickDebounce?.let { vacancyClickDebounce -> vacancyClickDebounce(it) }
-    }
+    private var vacancyAdapter: VacancyAdapter? = null
     private var recyclerView: RecyclerView? = null
 
     override fun onCreateView(
@@ -53,8 +52,14 @@ class SearchFragment : Fragment() {
         }
 
         initInputSearchForm()
-        clickAdapting()
 
+        vacancyClickDebounce = debounce(CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false) {
+            val bundle = bundleOf("vacancy" to it.id)
+            findNavController().navigate(R.id.action_searchFragment_to_vacancyFragment, bundle)
+        }
+        vacancyAdapter = VacancyAdapter {
+            vacancyClickDebounce?.let { vacancyClickDebounce -> vacancyClickDebounce(it) }
+        }
         recyclerView = binding.rvSearch
         recyclerView!!.adapter = vacancyAdapter
 
@@ -69,7 +74,7 @@ class SearchFragment : Fragment() {
                 binding.closeImage.visibility = VISIBLE
                 binding.searchImage.visibility = GONE
             }
-            viewModel.searchRequest(query.toString())
+            viewModel.search(query.toString())
         }
 
         binding.inputSearchForm.requestFocus()
@@ -81,20 +86,8 @@ class SearchFragment : Fragment() {
         when (stateLiveData) {
             is SearchState.Loading -> loading()
             is SearchState.SearchContent -> searchIsOk(stateLiveData.vacancys)
-            is SearchState.EmptySearch -> nothingFound()
-            is SearchState.Error -> connectionError()
+            is SearchState.Error -> connectionError(stateLiveData.error)
             is SearchState.EmptyScreen -> defaultSearch()
-        }
-    }
-
-    private fun clickAdapting() {
-        vacancyClickDebounce = debounce(
-            CLICK_DEBOUNCE_DELAY,
-            viewLifecycleOwner.lifecycleScope,
-            false
-        ) {
-            val bundle = bundleOf("vacancy" to it)
-            findNavController().navigate(R.id.action_searchFragment_to_vacancyFragment, bundle)
         }
     }
 
@@ -112,7 +105,8 @@ class SearchFragment : Fragment() {
     }
 
     private fun defaultSearch() {
-        recyclerView?.visibility = VISIBLE
+        recyclerView?.visibility = GONE
+        binding.placeholderImage.visibility = VISIBLE
         binding.notInternetImage.visibility = GONE
         binding.errorVacancyImage.visibility = GONE
         Log.d("DefaultSearch", "DefaultSearch was started")
@@ -122,9 +116,10 @@ class SearchFragment : Fragment() {
     private fun loading() {
         binding.progressBar.visibility = VISIBLE
         recyclerView?.visibility = GONE
+        binding.placeholderImage.visibility = GONE
         binding.notInternetImage.visibility = GONE
         binding.errorVacancyImage.visibility = GONE
-        vacancyAdapter.notifyDataSetChanged()
+        vacancyAdapter?.notifyDataSetChanged()
         Log.d("Loading", "Loading was started")
     }
 
@@ -135,26 +130,47 @@ class SearchFragment : Fragment() {
         binding.errorVacancyImage.visibility = GONE
         binding.placeholderImage.visibility = GONE
         binding.closeImage.visibility = GONE
-        vacancyAdapter.vacancyList.addAll(data)
+        vacancyAdapter?.vacancyList?.addAll(data)
         Log.d("SearchIsOk", "Loading has been end")
     }
 
-    private fun nothingFound() {
+    private fun connectionError(data: ErrorNetwork) {
         binding.progressBar.visibility = GONE
-        binding.closeImage.visibility = VISIBLE
         recyclerView?.visibility = GONE
-        binding.errorVacancyImage.visibility = VISIBLE
-        binding.notInternetImage.visibility = GONE
         binding.placeholderImage.visibility = GONE
-        Log.d("NothingFound", "NothingFound")
-    }
+        when (data) {
+            ErrorNetwork.NO_CONNECTIVITY_MESSAGE -> {
+                binding.notInternetImage.visibility = GONE
+                binding.errorVacancyImage.visibility = GONE
+                binding.tvNotInternet.visibility = VISIBLE
+            }
 
-    private fun connectionError() {
-        binding.progressBar.visibility = GONE
-        binding.notInternetImage.visibility = VISIBLE
-        binding.errorVacancyImage.visibility = GONE
-        recyclerView?.visibility = GONE
-        binding.placeholderImage.visibility = GONE
+            ErrorNetwork.NOT_FOUND -> {
+                binding.notInternetImage.visibility = GONE
+                binding.errorVacancyImage.visibility = VISIBLE
+                binding.tvError.visibility = VISIBLE
+            }
+
+            ErrorNetwork.CAPTCHA_INPUT -> {
+                binding.notInternetImage.visibility = GONE
+                binding.errorVacancyImage.visibility = VISIBLE
+                binding.errorVacancyImage.setImageResource(R.drawable.ic_server_error)
+                binding.tvError.visibility = VISIBLE
+                binding.tvError.text = "Капча"
+            }
+
+            ErrorNetwork.BAD_REQUEST_RESULT_CODE -> {
+                binding.notInternetImage.visibility = VISIBLE
+                binding.errorVacancyImage.visibility = GONE
+                binding.tvError.text = "Хуевый запрос"
+            }
+
+            ErrorNetwork.SERVER_ERROR_MESSAGE -> {
+                binding.notInternetImage.visibility = VISIBLE
+                binding.errorVacancyImage.visibility = GONE
+                binding.tvError.text = "Всякая шляпа"
+            }
+        }
         Log.d("ConnectionError", "Connection Error")
     }
 
@@ -164,8 +180,6 @@ class SearchFragment : Fragment() {
     }
 
     companion object {
-        private const val SEARCH_USER_INPUT = "SEARCH_USER_INPUT"
-        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 }

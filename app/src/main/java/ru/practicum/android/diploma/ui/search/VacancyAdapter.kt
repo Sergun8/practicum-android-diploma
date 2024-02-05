@@ -2,9 +2,11 @@ package ru.practicum.android.diploma.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.util.Paginaciya
 
 class VacancyAdapter(private val clickListener: VacancyClickListener) : RecyclerView.Adapter<VacancyViewHolder>() {
     var vacancyList = ArrayList<Vacancy>()
@@ -26,4 +28,16 @@ class VacancyAdapter(private val clickListener: VacancyClickListener) : Recycler
     fun interface VacancyClickListener {
         fun onTrackClick(vacancy: Vacancy)
     }
+
+    // переделать
+    fun setVacancies(newVacancies: List<Vacancy>?) {
+        val diffCallback = Paginaciya(vacancyList, newVacancies ?: emptyList())
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        vacancyList.clear()
+        if (!newVacancies.isNullOrEmpty()) {
+            vacancyList.addAll(newVacancies)
+        }
+        diffResult.dispatchUpdatesTo(this)
+    }
+
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import ru.practicum.android.diploma.R
 
@@ -28,10 +29,12 @@ class VacancyFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(vacancyId: String) =
             VacancyFragment().apply {
                 arguments = Bundle().apply {
+                    bundleOf("ARGS_VACANCY" to vacancyId)
                 }
+
             }
     }
 }

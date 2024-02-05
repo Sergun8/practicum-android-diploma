@@ -9,11 +9,11 @@ import ru.practicum.android.diploma.domain.models.ErrorNetwork
 import ru.practicum.android.diploma.domain.models.Vacancy
 
 class SearchInteractorImpl(private val repository: SearchRepository) : SearchInteractor {
-    override fun search(expression: String): Flow<Pair<List<Vacancy>?, ErrorNetwork?>> {
-        return repository.search(expression).map { result ->
+    override fun search(expression: String, page: Int): Flow<Pair<List<Vacancy>?, ErrorNetwork?>> {
+        return repository.search(expression, page).map { result ->
             when (result) {
                 is Resource.Success -> {
-                    Pair(result.data, null)
+                    Pair(result.data?.listVacancy, null)
                 }
 
                 is Resource.Error -> {
