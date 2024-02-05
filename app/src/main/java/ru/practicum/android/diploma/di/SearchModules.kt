@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.di
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.data.SearchRepositoryImpl
 import ru.practicum.android.diploma.data.search.network.HhApi
 import ru.practicum.android.diploma.data.search.network.NetworkClient
@@ -16,6 +17,7 @@ val SearchModules = module {
     single<HhApi> {
         Retrofit.Builder()
             .baseUrl(RetrofitNetworkClient.HH_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(HhApi::class.java)
     }
@@ -24,7 +26,7 @@ val SearchModules = module {
         SearchRepositoryImpl(networkClient = get())
     }
     single<NetworkClient> {
-        RetrofitNetworkClient(service = get(), context = get())
+        RetrofitNetworkClient(service = get())
     }
 
     factory<SearchInteractor> {
