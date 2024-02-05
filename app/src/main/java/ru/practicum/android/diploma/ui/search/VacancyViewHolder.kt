@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.search
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,17 +17,18 @@ class VacancyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val tvSalary: TextView = itemView.findViewById(R.id.tv_salary)
     private val ivUrl100: ImageView = itemView.findViewById(R.id.iv_logo)
 
+    @SuppressLint("SetTextI18n")
     fun bind(item: Vacancy) {
-        tvDescription.text = item.name
-        tvCompanyName.text = item.name
-        tvSalary.text = item.name.toString()
-/*
+        tvDescription.text = item.name + ", " + item.area
+        tvCompanyName.text = item.employer
+        tvSalary.text = item.salary
+
         Glide.with(itemView)
-            .load(item.areaUrl)
+            .load(item.alternateUrl)
             .placeholder(R.drawable.ic_toast)
             .fitCenter()
             .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.margin_8)))
             .into(ivUrl100)
-        */
+
     }
 }

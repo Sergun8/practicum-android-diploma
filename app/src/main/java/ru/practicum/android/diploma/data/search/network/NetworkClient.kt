@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.data.search.network
 
-
 interface NetworkClient {
-      suspend fun doRequest(request: JobSearchRequest): Response
+    suspend fun doRequest(dto: Any): Response
 }

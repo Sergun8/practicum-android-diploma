@@ -28,7 +28,8 @@ class VacancyAdapter(private val clickListener: VacancyClickListener) : Recycler
     fun interface VacancyClickListener {
         fun onTrackClick(vacancy: Vacancy)
     }
-    //переделать
+
+    // переделать
     fun setVacancies(newVacancies: List<Vacancy>?) {
         val diffCallback = Paginaciya(vacancyList, newVacancies ?: emptyList())
         val diffResult = DiffUtil.calculateDiff(diffCallback)
@@ -40,7 +41,3 @@ class VacancyAdapter(private val clickListener: VacancyClickListener) : Recycler
     }
 
 }
-
-
-
-

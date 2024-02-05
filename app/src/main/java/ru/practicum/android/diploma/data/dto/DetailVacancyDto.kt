@@ -39,4 +39,3 @@ data class DetailVacancyDto(
         return id.hashCode()
     }
 }
-

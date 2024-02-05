@@ -14,32 +14,21 @@ class SearchViewModel(
     private var searchInteractor: SearchInteractor
 ) : ViewModel() {
 
-
     private val vacancys = mutableListOf<Vacancy>()
-    private val pageCurrency = 1
+    private val pageCurrency = 0
     private val stateLiveData = MutableLiveData<SearchState>()
+    private fun renderState(state: SearchState) {
+        stateLiveData.postValue(state)
+    }
+    fun getStateLiveData(): LiveData<SearchState> {
+        return stateLiveData
+    }
     private val vacanciesSearchDebounce =
         debounce<String?>(SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { query ->
             searchRequest(query!!, pageCurrency)
         }
-    private fun renderState(state: SearchState) {
-        stateLiveData.postValue(state)
-    }
 
-    fun getStateLiveData(): LiveData<SearchState> {
-        return stateLiveData
-    }
-
-
-
-
-    companion object {
-
-        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
-
-    }
-
-    fun searchRequest(searchText: String, pageCurrency: Int ) {
+    fun searchRequest(searchText: String, pageCurrency: Int) {
         if (searchText.isNotEmpty()) {
             renderState(SearchState.Loading)
             viewModelScope.launch {
@@ -51,32 +40,32 @@ class SearchViewModel(
             }
         }
     }
-
     private fun processResult(searchVacancys: List<Vacancy>?, errorMessage: ErrorNetwork?) {
         if (searchVacancys != null) {
             vacancys.addAll(searchVacancys)
         }
-
         when {
             errorMessage != null -> {
-                renderState(SearchState.Error)
+                renderState(SearchState.Error(errorMessage))
             }
-
             vacancys.isEmpty() -> {
-                renderState(SearchState.EmptySearch)
+                renderState(SearchState.Error(ErrorNetwork.NOT_FOUND))
             }
-
             else -> {
                 renderState(SearchState.SearchContent(searchVacancys!!))
             }
         }
     }
     fun search(query: String?) {
-        if (query.isNullOrBlank())
+        if (query.isNullOrBlank()) {
             vacancys.clear()
-
+        }
         vacanciesSearchDebounce(query)
+    }
+    companion object {
+
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
+
     }
 
 }
-
