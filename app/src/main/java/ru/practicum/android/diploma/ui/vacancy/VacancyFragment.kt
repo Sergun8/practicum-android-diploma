@@ -85,23 +85,61 @@ class VacancyFragment : Fragment() {
 
             jobTime.text = vacancy.scheduleName
 
-//Зачем  RecyclerView.  TextView и обязанности через /n пример ниже
-            // responsibilitiesRecyclerView. = vacancy.deskription
+            if (vacancy.description.isNullOrEmpty()) {
+                conditions.visibility = VISIBLE
+                tvConditions.visibility = VISIBLE
+            } else {
+                var conditions = ""
+                vacancy.description.forEach { condition ->
+                    conditions += " ${condition}\n"
+                }
+                tvConditions.text = conditions
+            }
 
             if (vacancy.keySkillsNames.isNullOrEmpty()) {
                 requirements.visibility = VISIBLE
-                requirementsRecyclerView.visibility = VISIBLE
+                tvRequirements.visibility = VISIBLE
             } else {
                 var skills = ""
                 vacancy.keySkillsNames.forEach { skill ->
                     skills += " ${skill}\n"
                 }
-                // keySkillsRecyclerView.text = skills
+                 tvKeySkills.text = skills
+            }
+            if (
+                vacancy?.contactsName?.isNotEmpty() == true ||
+                vacancy?.contactsEmail?.isNotEmpty() == true ||
+                vacancy?.contactsPhones.toString()?.isNotEmpty() == true
+            ) {
+                contactInformation.visibility = VISIBLE
+                contactPerson.visibility = VISIBLE
+                contactPersonData.visibility = VISIBLE
+                contactPersonEmail.visibility = VISIBLE
+                contactPersonPhone.visibility = VISIBLE
+                contactPersonPhone.visibility = VISIBLE
+                contactPersonPhoneData.visibility = VISIBLE
+                contactComment.visibility = VISIBLE
+                contactCommentData.visibility = VISIBLE
             }
 
+            if (vacancy?.contactsName?.isNotEmpty() == true) {
+                contactPersonData.text = vacancy.contactsName
+            }
 
+            if (vacancy?.contactsEmail?.isNotEmpty() == true) {
+                contactPersonEmail.text = vacancy.contactsEmail
+            }
+
+            if (vacancy?.contactsPhones?.isNotEmpty() == true) {
+                var phones = ""
+                vacancy.contactsPhones.forEach { phone ->
+                    phones += " ${phone}\n"
+                }
+                contactPersonPhoneData.text = phones
+            }
         }
-    }
+        }
+
 
     private fun loading() {
         binding.progressBar.visibility = View.VISIBLE

@@ -17,7 +17,7 @@ class Convertors {
         return Vacancy(
             id = vacancy.id,
             area = createAreaName(vacancy.area),
-            alternateUrl = createLogoUrl(vacancy.employer?.logoUrls),
+            alternateUrl = vacancy.alternateUrl,
             employer = createEmployerName(vacancy.employer),
             name = vacancy.name,
             salary = createSalary(vacancy.salary)
