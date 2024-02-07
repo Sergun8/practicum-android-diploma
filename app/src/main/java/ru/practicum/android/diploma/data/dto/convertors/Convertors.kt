@@ -1,12 +1,14 @@
 package ru.practicum.android.diploma.data.dto.convertors
 
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.data.dto.response.DetailVacancyDto
 import ru.practicum.android.diploma.data.dto.VacancyDto
 import ru.practicum.android.diploma.data.dto.field.AreaDto
 import ru.practicum.android.diploma.data.dto.field.EmployerDto
 import ru.practicum.android.diploma.data.dto.field.LogoUrlDto
 import ru.practicum.android.diploma.data.dto.field.SalaryDto
 import ru.practicum.android.diploma.data.dto.response.SearchListDto
+import ru.practicum.android.diploma.domain.models.DetailVacancy
 import ru.practicum.android.diploma.domain.models.SearchList
 import ru.practicum.android.diploma.domain.models.Vacancy
 
@@ -28,6 +30,32 @@ class Convertors {
             maxPages = searchList.pages,
             currentPages = searchList.page,
             listVacancy = searchList.results?.map { vacancyDto -> convertorToVacancy(vacancyDto) },
+        )
+    }
+
+    fun convertorToDetailVacancy(vacancy: DetailVacancyDto): DetailVacancy {
+        return DetailVacancy(
+            id = vacancy.id,
+            areaId = "",
+            areaName = createAreaName(vacancy.area),
+            areaUrl = createLogoUrl(vacancy.employer?.logoUrls),
+            contactsCallTrackingEnabled = false,
+            contactsEmail = "",
+            contactsName = "",
+            contactsPhones = listOf(),
+            description = "",
+            employmentId = "",
+            employmentName = "",
+            experienceId = "",
+            experienceName = "",
+            keySkillsNames = listOf(),
+            name = vacancy.name,
+            salaryCurrency = "",
+            salaryFrom = 100400,
+            salaryGross = false,
+            salaryTo = 222,
+            scheduleId = "",
+            scheduleName = "",
         )
     }
 

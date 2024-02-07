@@ -17,16 +17,17 @@ class SearchViewModel(
     private val vacancys = mutableListOf<Vacancy>()
     private val pageCurrency = 0
     private val stateLiveData = MutableLiveData<SearchState>()
+    private var latestSearchText: String? = null
+    private val vacancySearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { changedText ->
+        searchRequest(changedText, pageCurrency)
+    }
     private fun renderState(state: SearchState) {
         stateLiveData.postValue(state)
     }
     fun getStateLiveData(): LiveData<SearchState> {
         return stateLiveData
     }
-    private val vacanciesSearchDebounce =
-        debounce<String?>(SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { query ->
-            searchRequest(query!!, pageCurrency)
-        }
+
 
     fun searchRequest(searchText: String, pageCurrency: Int) {
         if (searchText.isNotEmpty()) {
@@ -56,12 +57,14 @@ class SearchViewModel(
             }
         }
     }
-    fun search(query: String?) {
-        if (query.isNullOrBlank()) {
-            vacancys.clear()
+
+    fun search(changedText: String) {
+        if (latestSearchText != changedText) {
+            latestSearchText = changedText
+            vacancySearchDebounce(changedText)
         }
-        vacanciesSearchDebounce(query)
     }
+
     companion object {
 
         private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L

@@ -54,7 +54,7 @@ class SearchFragment : Fragment() {
         initInputSearchForm()
 
         vacancyClickDebounce = debounce(CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false) {
-            val bundle = bundleOf("vacancy" to it.id)
+            val bundle = bundleOf("vacancyId" to it.id)
             findNavController().navigate(R.id.action_searchFragment_to_vacancyFragment, bundle)
         }
         vacancyAdapter = VacancyAdapter {
@@ -154,7 +154,7 @@ class SearchFragment : Fragment() {
             ErrorNetwork.CAPTCHA_INPUT -> {
                 binding.notInternetImage.visibility = GONE
                 binding.errorVacancyImage.visibility = VISIBLE
-                binding.errorVacancyImage.setImageResource(R.drawable.ic_server_error)
+                binding.errorVacancyImage.setImageResource(R.drawable.ic_error_server_search)
                 binding.tvError.visibility = VISIBLE
                 binding.tvError.text = "Капча"
             }

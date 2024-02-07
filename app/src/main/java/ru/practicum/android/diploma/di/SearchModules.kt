@@ -26,7 +26,7 @@ val SearchModules = module {
         SearchRepositoryImpl(networkClient = get())
     }
     single<NetworkClient> {
-        RetrofitNetworkClient(service = get())
+        RetrofitNetworkClient(service = get(), context = get())
     }
 
     factory<SearchInteractor> {
