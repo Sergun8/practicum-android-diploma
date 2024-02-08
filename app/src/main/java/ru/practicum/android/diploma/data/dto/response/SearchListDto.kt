@@ -1,13 +1,12 @@
 package ru.practicum.android.diploma.data.dto.response
 
+import VacancyDto
 import com.google.gson.annotations.SerializedName
-import ru.practicum.android.diploma.data.dto.VacancyDto
 import ru.practicum.android.diploma.data.search.network.Response
 
-class SearchListDto(
-    val found: Int?,
-    val page: Int?,
-    val pages: Int?,
-    @SerializedName("items")
-    val results: List<VacancyDto>?,
+data class SearchListDto(
+    @SerializedName("items") val results: ArrayList<VacancyDto>,
+    @SerializedName("page") val page: Int?,
+    @SerializedName("pages") val pages: Int?,
+    @SerializedName("found") val found: Int?
 ) : Response()

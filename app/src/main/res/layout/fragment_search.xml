@@ -110,6 +110,7 @@
         tools:listitem="" />
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/placeholder_Image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
