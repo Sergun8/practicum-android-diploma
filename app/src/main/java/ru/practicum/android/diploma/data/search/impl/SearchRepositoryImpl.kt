@@ -33,9 +33,19 @@ class SearchRepositoryImpl(private val networkClient: NetworkClient) : SearchRep
             SUCCESS_RESULT_CODE -> {
                 emit(
                     Resource(
-                        (response as SearchListDto).results.map(
-                            VacancyDto::toVacancy
-                        ), SUCCESS_RESULT_CODE
+                        (response as SearchListDto).results.map { vacancyDto ->
+                            Vacancy(
+                                id = vacancyDto.id,
+                                name = vacancyDto.name,
+                                city = vacancyDto.area.name,
+                                employer = vacancyDto.employer.name,
+                                employerLogoUrls = vacancyDto.employer.url?.logo,
+                                currency = vacancyDto.salary?.currency,
+                                salaryFrom = vacancyDto.salary?.from,
+                                salaryTo = vacancyDto.salary?.to,
+                            )
+                        },
+                        SUCCESS_RESULT_CODE
                     ) to PagingInfo(
                         page = response.page, pages = response.pages, found = response.found
                     )
