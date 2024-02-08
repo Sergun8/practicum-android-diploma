@@ -1,33 +1,42 @@
 package ru.practicum.android.diploma.data.search.network
 
-import retrofit2.HttpException
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import ru.practicum.android.diploma.data.Constant.NO_CONNECTIVITY_MESSAGE
+import ru.practicum.android.diploma.data.Constant.SERVER_ERROR
+import ru.practicum.android.diploma.data.Constant.SUCCESS_RESULT_CODE
+import ru.practicum.android.diploma.data.search.api.HhApi
+import java.io.IOException
 
 class RetrofitNetworkClient(
     private val service: HhApi,
+    private val context: Context
 ) : NetworkClient {
 
-    override suspend fun doRequest(dto: Any): Response {
-        var response = Response()
-        return try {
-            when (dto) {
-                is JobSearchRequest -> {
-                    response = service.jobSearch(
-                        query = dto.expression,
-                        page = dto.page,
-                    )
-                }
-
+    override suspend fun search(dto: JobSearchRequest): Response {
+        if (!isConnected()) {
+            return Response().apply { resultCode = NO_CONNECTIVITY_MESSAGE }
+        }
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = service.jobSearch(dto.request)
+                response.apply { resultCode = SUCCESS_RESULT_CODE }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                Response().apply { resultCode = SERVER_ERROR }
             }
-            response.apply { resultCode = SUCCESS_RESULT_CODE }
-
-        } catch (exception: HttpException) {
-            response.apply { resultCode = exception.code() }
         }
     }
+    private fun isConnected(): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
 
-    companion object {
-        private const val NO_INTERNET_CONNECTION_CODE = -1
-        private const val SUCCESS_RESULT_CODE = 200
-        const val HH_BASE_URL = "https://api.hh.ru/"
+        return capabilities != null && (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET))
     }
+
 }
