@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -39,13 +41,12 @@ class VacancyFragment : Fragment() {
         binding.arrowBackButton.setOnClickListener {
             findNavController().navigateUp()
         }
-
+        vacancyId = requireArguments().getString(ARGS_VACANCY)
         viewModel.getVacancyDetail(vacancyId!!)
 
         viewModel.vacancyState.observe(viewLifecycleOwner) { state ->
             render(state)
         }
-
     }
 
     private fun render(stateLiveData: VacancyState) {
@@ -54,12 +55,13 @@ class VacancyFragment : Fragment() {
             is VacancyState.Content -> content(stateLiveData.vacancy)
             is VacancyState.Error -> connectionError(stateLiveData.error)
             is VacancyState.EmptyScreen -> defaultSearch()
+            else -> {}
         }
     }
 
 
     private fun initViews(vacancy: DetailVacancy) {
-        vacancyId = requireArguments().getString("vacancyId")
+
 
         with(binding) {
 
@@ -77,13 +79,13 @@ class VacancyFragment : Fragment() {
 
 
 
-            companyName.text = vacancy.employmentName
+            companyName.text = vacancy.employerName
 
             companyCity.text = vacancy.areaName
 
             neededExperience.text = vacancy.experienceName
 
-            jobTime.text = vacancy.scheduleName
+            jobTime.text = vacancy.description
 
             if (vacancy.description.isNullOrEmpty()) {
                 conditions.visibility = VISIBLE
@@ -104,7 +106,7 @@ class VacancyFragment : Fragment() {
                 vacancy.keySkillsNames.forEach { skill ->
                     skills += " ${skill}\n"
                 }
-                 tvKeySkills.text = skills
+                tvKeySkills.text = skills
             }
             if (
                 vacancy?.contactsName?.isNotEmpty() == true ||
@@ -138,7 +140,7 @@ class VacancyFragment : Fragment() {
                 contactPersonPhoneData.text = phones
             }
         }
-        }
+    }
 
 
     private fun loading() {
@@ -148,8 +150,9 @@ class VacancyFragment : Fragment() {
 
 
     private fun content(data: DetailVacancy) {
+        binding.progressBar.visibility = GONE
         initViews(data)
-        Log.d("SearchIsOk", "Loading has been end")
+
     }
 
     private fun defaultSearch() {
@@ -157,14 +160,99 @@ class VacancyFragment : Fragment() {
     }
 
     private fun connectionError(error: ErrorNetwork) {
+        binding.progressBar.visibility = GONE
 
+        when (error) {
+            ErrorNetwork.NO_CONNECTIVITY_MESSAGE -> {
+                with(binding) {
+                    contactInformation.visibility = GONE
+                    contactPerson.visibility = VISIBLE
+                    contactPerson.text = "Нет интернета"
+                    contactPersonData.visibility = GONE
+                    contactPersonEmail.visibility = GONE
+                    contactPersonPhone.visibility = GONE
+                    contactPersonPhone.visibility = GONE
+                    contactPersonPhoneData.visibility = GONE
+                    contactComment.visibility = GONE
+                    contactCommentData.visibility = GONE
+                }
+            }
+
+            ErrorNetwork.NOT_FOUND -> {
+                with(binding) {
+                    contactInformation.visibility = GONE
+                    contactPerson.visibility = VISIBLE
+                    contactPerson.text = "Ничего не нашлось"
+                    contactPersonData.visibility = GONE
+                    contactPersonEmail.visibility = GONE
+                    contactPersonPhone.visibility = GONE
+                    contactPersonPhone.visibility = GONE
+                    contactPersonPhoneData.visibility = GONE
+                    contactComment.visibility = GONE
+                    contactCommentData.visibility = GONE
+                }
+            }
+
+            ErrorNetwork.CAPTCHA_INPUT -> {
+                with(binding) {
+                    contactInformation.visibility = GONE
+                    contactPerson.visibility = VISIBLE
+                    contactPerson.text = "Капча"
+                    contactPersonData.visibility = GONE
+                    contactPersonEmail.visibility = GONE
+                    contactPersonPhone.visibility = GONE
+                    contactPersonPhone.visibility = GONE
+                    contactPersonPhoneData.visibility = GONE
+                    contactComment.visibility = GONE
+                    contactCommentData.visibility = GONE
+                }
+            }
+
+            ErrorNetwork.BAD_REQUEST_RESULT_CODE -> {
+                with(binding) {
+                    contactInformation.visibility = GONE
+                    contactPerson.visibility = VISIBLE
+                    contactPerson.text = "Плохой запрос"
+                    contactPersonData.visibility = GONE
+                    contactPersonEmail.visibility = GONE
+                    contactPersonPhone.visibility = GONE
+                    contactPersonPhone.visibility = GONE
+                    contactPersonPhoneData.visibility = GONE
+                    contactComment.visibility = GONE
+                    contactCommentData.visibility = GONE
+                }
+            }
+
+            ErrorNetwork.SERVER_ERROR_MESSAGE -> {
+                with(binding) {
+                    contactInformation.visibility = GONE
+                    contactPerson.visibility = VISIBLE
+                    contactPerson.text = "Ошибка сервера"
+                    contactPersonData.visibility = GONE
+                    contactPersonEmail.visibility = GONE
+                    contactPersonPhone.visibility = GONE
+                    contactPersonPhone.visibility = GONE
+                    contactPersonPhoneData.visibility = GONE
+                    contactComment.visibility = GONE
+                    contactCommentData.visibility = GONE
+                }
+            }
+        }
+        Log.d("ConnectionError", "Connection Error")
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
+    companion object {
+        const val ARGS_VACANCY = "vacancyId"
+        fun createArgs(vacancyId: String): Bundle =
+            bundleOf(ARGS_VACANCY to vacancyId)
+
+    }
 }
 
 

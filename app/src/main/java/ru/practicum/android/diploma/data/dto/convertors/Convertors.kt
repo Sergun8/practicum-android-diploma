@@ -4,8 +4,10 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.data.dto.response.DetailVacancyDto
 import ru.practicum.android.diploma.data.dto.VacancyDto
 import ru.practicum.android.diploma.data.dto.field.AreaDto
+import ru.practicum.android.diploma.data.dto.field.Contacts
 import ru.practicum.android.diploma.data.dto.field.EmployerDto
-import ru.practicum.android.diploma.data.dto.field.LogoUrlDto
+import ru.practicum.android.diploma.data.dto.field.LogoUrls
+import ru.practicum.android.diploma.data.dto.field.Phone
 import ru.practicum.android.diploma.data.dto.field.SalaryDto
 import ru.practicum.android.diploma.data.dto.response.SearchListDto
 import ru.practicum.android.diploma.domain.models.DetailVacancy
@@ -17,7 +19,7 @@ class Convertors {
         return Vacancy(
             id = vacancy.id,
             area = createAreaName(vacancy.area),
-            alternateUrl = vacancy.alternateUrl,
+            alternateUrl =  createLogoUrl(vacancy.employer?.logoUrls),
             employer = createEmployerName(vacancy.employer),
             name = vacancy.name,
             salary = createSalary(vacancy.salary)
@@ -40,10 +42,11 @@ class Convertors {
             areaName = createAreaName(vacancy.area),
             areaUrl = createLogoUrl(vacancy.employer?.logoUrls),
             contactsCallTrackingEnabled = false,
-            contactsEmail = "",
-            contactsName = "",
-            contactsPhones = listOf(),
-            description = "",
+            contactsEmail = vacancy.contacts?.email,
+            contactsName = vacancy.contacts?.name,
+            contactsPhones = vacancy.contacts?.phones?.let { createPhone(it) },
+            description = vacancy.description,
+            employerName = createEmployerName(vacancy.employer),
             employmentId = "",
             employmentName = "",
             experienceId = "",
@@ -104,11 +107,19 @@ class Convertors {
         }
     }
 
-    private fun createLogoUrl(logo: LogoUrlDto?): String? {
-        return if (logo?.logoUrl90 == null) {
+    private fun createLogoUrl(logo: LogoUrls?): String? {
+        return if (logo?.logoUrl240 == null) {
             null
         } else {
-            logo.logoUrl90
+            logo.logoUrl240
         }
     }
+    private fun createPhone(phone: Phone): String? {
+        return if (phone==null) {
+            null
+        } else {
+           "+${phone.country}" + " (${phone.citi})"  + " ${phone.number}"
+        }
+    }
+
 }

@@ -20,14 +20,12 @@ interface HhApi {
         @Query("per_page") perPage: Int = 20,
     ): SearchListDto
 
-
+    @GET("vacancies/{vacancy_id}")
+    suspend fun getDetailVacancy(@Path("vacancy_id") vacancyId: String): DetailVacancyDto
     @Headers(
         "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}",
         "HH-User-Agent: HHLiteJob/1.0(ya.tarannov@yandex.ru)"
     )
-    @GET("vacancies/{vacancy_id}")
-    suspend fun getDetailVacancy(@Path("vacancy_id") vacancyId: String): DetailVacancyDto
-
     @GET("vacancies/{vacancy_id}/similar_vacancies")
     suspend fun similarVacancy(@Path("vacancy_id") vacancyId: String): SearchListDto
 

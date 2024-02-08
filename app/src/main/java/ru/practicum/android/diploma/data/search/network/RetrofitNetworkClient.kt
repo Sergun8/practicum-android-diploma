@@ -13,7 +13,7 @@ class RetrofitNetworkClient(private val context: Context,
     override suspend fun doRequest(dto: Any): Response {
         var response = Response()
         if (!isConnected()) {
-            return Response().apply { resultCode = -1 }
+            return Response().apply { resultCode = NO_INTERNET_CONNECTION_CODE }
         }
         return try {
             when (dto) {

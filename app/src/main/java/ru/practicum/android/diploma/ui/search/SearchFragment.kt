@@ -21,6 +21,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.domain.models.ErrorNetwork
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.ui.vacancy.VacancyFragment
 import ru.practicum.android.diploma.util.debounce
 
 class SearchFragment : Fragment() {
@@ -54,8 +55,8 @@ class SearchFragment : Fragment() {
         initInputSearchForm()
 
         vacancyClickDebounce = debounce(CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false) {
-            val bundle = bundleOf("vacancyId" to it.id)
-            findNavController().navigate(R.id.action_searchFragment_to_vacancyFragment, bundle)
+            val vacancyId = it.id
+            findNavController().navigate(R.id.action_searchFragment_to_vacancyFragment, VacancyFragment.createArgs(vacancyId))
         }
         vacancyAdapter = VacancyAdapter {
             vacancyClickDebounce?.let { vacancyClickDebounce -> vacancyClickDebounce(it) }
@@ -181,5 +182,7 @@ class SearchFragment : Fragment() {
 
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
+
+
     }
 }

@@ -8,5 +8,6 @@ class SearchListDto(
     val found: Int?,
     val page: Int?,
     val pages: Int?,
+    @SerializedName("items")
     val results: List<VacancyDto>?,
 ) : Response()
