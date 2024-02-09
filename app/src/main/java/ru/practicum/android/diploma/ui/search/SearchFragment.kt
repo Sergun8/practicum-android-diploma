@@ -16,6 +16,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
@@ -30,6 +33,7 @@ class SearchFragment : Fragment() {
     private var vacancyClickDebounce: ((Vacancy) -> Unit)? = null
     private var vacancyAdapter: VacancyAdapter? = null
     private var recyclerView: RecyclerView? = null
+    private var searchJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,6 +69,7 @@ class SearchFragment : Fragment() {
 
     }
 
+
     private fun initInputSearchForm() {
         binding.inputSearchForm.doOnTextChanged { query: CharSequence?, _, _, _ ->
             if (query.isNullOrEmpty()) {
@@ -74,12 +79,18 @@ class SearchFragment : Fragment() {
                 binding.closeImage.visibility = VISIBLE
                 binding.searchImage.visibility = GONE
             }
-            viewModel.search(query.toString())
+            searchDebounce(query.toString())
         }
 
         binding.inputSearchForm.requestFocus()
         onClearIconClick()
 
+    }
+    private fun searchDebounce(query: String) {
+        searchJob = lifecycleScope.launch {
+            delay(SEARCH_DEBOUNCE_DELAY_MILLIS)
+            viewModel.search(query)
+        }
     }
 
     private fun render(stateLiveData: SearchState) {
@@ -181,5 +192,6 @@ class SearchFragment : Fragment() {
 
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
     }
 }

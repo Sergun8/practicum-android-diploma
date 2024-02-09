@@ -65,11 +65,14 @@ room-runtime = "androidx.room:room-runtime:2.6.1"
 room-compiler = "androidx.room:room-compiler:2.6.1"
 room-ktx = "androidx.room:room-ktx:2.6.1"
 
-#Fragment
+#Fragment and Navigation
 fragment-ktx = "androidx.fragment:fragment-ktx:1.6.2"
 viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
 navigation-fragment-ktx = "androidx.navigation:navigation-fragment-ktx:2.7.6"
 navigation-ui-ktx = "androidx.navigation:navigation-ui-ktx:2.7.6"
+fragments-navigationFragment = "androidx.navigation:navigation-fragment-ktx:2.7.5"
+fragments-navigationUi = "androidx.navigation:navigation-ui-ktx:2.7.5"
+fragments-fragmentKtx = "androidx.fragment:fragment-ktx:1.6.2"
 
 #Coroutines
 coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
@@ -77,6 +80,8 @@ coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
 #paging
 paging = "androidx.paging:paging-runtime:3.2.1"
 
+# SafeArgs
+safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:2.7.5"
 
 [bundles]
 [plugins]

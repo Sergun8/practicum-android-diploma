@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.ui.search
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -22,7 +23,7 @@ class VacancyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         tvDescription.text = item.name + ", " + item.area
         tvCompanyName.text = item.employer
         tvSalary.text = item.salary
-
+        Log.d("image","${item.alternateUrl}")
         Glide.with(itemView)
             .load(item.alternateUrl)
             .placeholder(R.drawable.ic_toast)

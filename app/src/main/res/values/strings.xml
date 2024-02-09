@@ -42,4 +42,7 @@
     <string name="similar_vacancies_button_text">Похожие вакансии</string>
     <string name="server_error_text">Ошибка сервера</string>
     <string name="company_name_text">Еда</string>
+
+    <string name="error_getting_vacancies">Не удалось получить список вакансий</string>
+    <string name="error_empty_list">Список пуст</string>
 </resources>

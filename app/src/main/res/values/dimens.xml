@@ -10,4 +10,8 @@
     <dimen name="margin_18">18dp</dimen>
     <dimen name="margin_32">32dp</dimen>
     <dimen name="corner_radius_card_company_12">12dp</dimen>
+    <dimen name="favorites_margin_16">16dp</dimen>
+    <dimen name="favorites_margin_160">160dp</dimen>
+    <dimen name="favorites_margin_32">32dp</dimen>
+    <dimen name="medium_text_size">22sp</dimen>
 </resources>

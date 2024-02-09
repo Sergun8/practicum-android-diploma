@@ -80,7 +80,7 @@ class Convertors {
         return if (logo?.logoUrl90 == null) {
             null
         } else {
-            logo.logoUrl90
+           return logo.logoUrl90
         }
     }
 }

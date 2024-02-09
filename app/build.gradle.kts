@@ -4,6 +4,7 @@ plugins {
     id("ru.practicum.android.diploma.plugins.developproperties")
     id("kotlin-kapt")
     id("kotlin-parcelize")
+    id("androidx.navigation.safeargs")
 }
 android {
     namespace = "ru.practicum.android.diploma"
@@ -73,4 +74,8 @@ dependencies {
     implementation(libs.navigation.ui.ktx)
     implementation(libs.coroutines)
     implementation(libs.paging)
+    implementation ("javax.inject:javax.inject:1")
+    implementation(libs.fragments.navigationFragment)
+    implementation(libs.fragments.navigationUi)
+    implementation(libs.fragments.fragmentKtx)
 }

@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/ic_toast"
-            android:contentDescription="@string/todo" />
+            android:contentDescription="" />
     </FrameLayout>
 
     <LinearLayout
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?attr/colorOnPrimary"
-            tools:text="@string/description_vacancy" />
+            tools:text="" />
 
         <TextView
             android:id="@+id/tv_name_company"

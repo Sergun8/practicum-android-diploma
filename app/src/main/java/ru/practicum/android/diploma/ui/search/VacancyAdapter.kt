@@ -40,4 +40,7 @@ class VacancyAdapter(private val clickListener: VacancyClickListener) : Recycler
         diffResult.dispatchUpdatesTo(this)
     }
 
+    fun getItemByPosition(position: Int) =
+        vacancyList[position]
+
 }

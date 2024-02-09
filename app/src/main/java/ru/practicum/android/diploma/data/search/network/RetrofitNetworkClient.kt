@@ -3,7 +3,7 @@ package ru.practicum.android.diploma.data.search.network
 import retrofit2.HttpException
 
 class RetrofitNetworkClient(
-    private val service: HhApi,
+    private val service: HhApi
 ) : NetworkClient {
 
     override suspend fun doRequest(dto: Any): Response {
