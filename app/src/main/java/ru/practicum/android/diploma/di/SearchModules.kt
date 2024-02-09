@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.di
 
-import SearchInteractor
+import ru.practicum.android.diploma.domain.api.SearchInteractor
 import SearchInteractorImpl
 import SearchRepositoryImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -11,7 +11,7 @@ import ru.practicum.android.diploma.data.Constant.HH_BASE_URL
 import ru.practicum.android.diploma.data.search.api.HhApi
 import ru.practicum.android.diploma.data.search.network.NetworkClient
 import ru.practicum.android.diploma.data.search.network.RetrofitNetworkClient
-import ru.practicum.android.diploma.domain.search.SearchRepository
+import ru.practicum.android.diploma.domain.api.SearchRepository
 import ru.practicum.android.diploma.ui.search.viewmodel.SearchViewModel
 
 val SearchModules = module {

@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.ui.search.viewmodel
 
-import SearchInteractor
+import ru.practicum.android.diploma.domain.api.SearchInteractor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

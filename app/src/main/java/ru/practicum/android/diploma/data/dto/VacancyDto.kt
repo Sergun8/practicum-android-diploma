@@ -1,13 +1,16 @@
 
 
-import ru.practicum.android.diploma.domain.models.`object`.Area
-import ru.practicum.android.diploma.domain.models.`object`.Employer
-import ru.practicum.android.diploma.domain.models.`object`.Salary
+package ru.practicum.android.diploma.data.dto
+
+import ru.practicum.android.diploma.data.dto.field.AreaDto
+import ru.practicum.android.diploma.data.dto.field.EmployerDto
+import ru.practicum.android.diploma.data.dto.field.SalaryDto
 
 data class VacancyDto(
     val id: String,
+    val alternateUrl: String,
+    val area: AreaDto?,
+    val employer: EmployerDto?,
     val name: String,
-    val area: Area,
-    val employer: Employer,
-    val salary: Salary?
+    val salary: SalaryDto?,
 )

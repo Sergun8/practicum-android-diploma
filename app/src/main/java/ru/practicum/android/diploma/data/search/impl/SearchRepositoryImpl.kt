@@ -7,13 +7,17 @@ import ru.practicum.android.diploma.data.Constant.PER_PAGE_ITEMS
 import ru.practicum.android.diploma.data.Constant.SERVER_ERROR
 import ru.practicum.android.diploma.data.Constant.SUCCESS_RESULT_CODE
 import ru.practicum.android.diploma.data.Constant.TEXT
+import ru.practicum.android.diploma.data.dto.DetailVacancyDto
+import ru.practicum.android.diploma.data.dto.convertors.Convertors
 import ru.practicum.android.diploma.data.dto.response.SearchListDto
 import ru.practicum.android.diploma.data.search.network.JobSearchRequest
 import ru.practicum.android.diploma.data.search.network.NetworkClient
 import ru.practicum.android.diploma.data.search.network.PagingInfo
 import ru.practicum.android.diploma.data.search.network.Resource
+import ru.practicum.android.diploma.data.search.network.VacancyDetailRequest
+import ru.practicum.android.diploma.domain.models.DetailVacancy
 import ru.practicum.android.diploma.domain.models.Vacancy
-import ru.practicum.android.diploma.domain.search.SearchRepository
+import ru.practicum.android.diploma.domain.api.SearchRepository
 
 class SearchRepositoryImpl(private val networkClient: NetworkClient) : SearchRepository {
 
@@ -34,16 +38,7 @@ class SearchRepositoryImpl(private val networkClient: NetworkClient) : SearchRep
                 emit(
                     Resource(
                         (response as SearchListDto).results.map { vacancyDto ->
-                            Vacancy(
-                                id = vacancyDto.id,
-                                name = vacancyDto.name,
-                                city = vacancyDto.area.name,
-                                employer = vacancyDto.employer.name,
-                                employerLogoUrls = vacancyDto.employer.url?.logo,
-                                currency = vacancyDto.salary?.currency,
-                                salaryFrom = vacancyDto.salary?.from,
-                                salaryTo = vacancyDto.salary?.to,
-                            )
+                            Convertors().convertorToVacancy(vacancyDto)
                         },
                         SUCCESS_RESULT_CODE
                     ) to PagingInfo(
@@ -57,5 +52,21 @@ class SearchRepositoryImpl(private val networkClient: NetworkClient) : SearchRep
             }
         }
 
+    }
+    override fun getDetailVacancy(id: String): Flow<Resource<DetailVacancy>>  = flow {
+        val response = networkClient.doRequest(VacancyDetailRequest(id))
+        when (response.resultCode) {
+            NO_CONNECTIVITY_MESSAGE -> {
+                emit(Resource(code = NO_CONNECTIVITY_MESSAGE))
+            }
+            SUCCESS_RESULT_CODE -> {
+
+                emit(Resource(Convertors().convertorToDetailVacancy(response as DetailVacancyDto)))
+
+            }
+            else -> {
+                emit(Resource(code = NO_CONNECTIVITY_MESSAGE))
+            }
+        }
     }
 }
