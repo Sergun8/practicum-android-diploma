@@ -1,14 +1,13 @@
 package ru.practicum.android.diploma.data.dto.convertors
 
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.data.dto.response.DetailVacancyDto
 import ru.practicum.android.diploma.data.dto.VacancyDto
 import ru.practicum.android.diploma.data.dto.field.AreaDto
-import ru.practicum.android.diploma.data.dto.field.Contacts
 import ru.practicum.android.diploma.data.dto.field.EmployerDto
 import ru.practicum.android.diploma.data.dto.field.LogoUrls
 import ru.practicum.android.diploma.data.dto.field.Phone
 import ru.practicum.android.diploma.data.dto.field.SalaryDto
+import ru.practicum.android.diploma.data.dto.response.DetailVacancyDto
 import ru.practicum.android.diploma.data.dto.response.SearchListDto
 import ru.practicum.android.diploma.domain.models.DetailVacancy
 import ru.practicum.android.diploma.domain.models.SearchList
@@ -19,7 +18,7 @@ class Convertors {
         return Vacancy(
             id = vacancy.id,
             area = createAreaName(vacancy.area),
-            alternateUrl =  createLogoUrl(vacancy.employer?.logoUrls),
+            alternateUrl = createLogoUrl(vacancy.employer?.logoUrls),
             employer = createEmployerName(vacancy.employer),
             name = vacancy.name,
             salary = createSalary(vacancy.salary)
@@ -115,10 +114,10 @@ class Convertors {
         }
     }
     private fun createPhone(phone: Phone): String? {
-        return if (phone==null) {
+        return if (phone == null) {
             null
         } else {
-           "+${phone.country}" + " (${phone.citi})"  + " ${phone.number}"
+            "+${phone.country}" + " (${phone.citi})" + " ${phone.number}"
         }
     }
 

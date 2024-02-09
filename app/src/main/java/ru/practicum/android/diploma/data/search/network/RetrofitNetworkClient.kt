@@ -3,13 +3,33 @@ package ru.practicum.android.diploma.data.search.network
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import ru.practicum.android.diploma.util.Constant.NO_CONNECTIVITY_MESSAGE
+import ru.practicum.android.diploma.util.Constant.SERVER_ERROR
+import java.io.IOException
 
-
-class RetrofitNetworkClient(private val context: Context,
+class RetrofitNetworkClient(
+    private val context: Context,
     private val service: HhApi,
+
 ) : NetworkClient {
 
+    override suspend fun search(dto: JobSearchRequest): Response {
+        if (!isConnected()) {
+            return Response().apply { resultCode = NO_CONNECTIVITY_MESSAGE }
+        }
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = service.jobSearch(dto.request)
+                response.apply { resultCode = SUCCESS_RESULT_CODE }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                Response().apply { resultCode = SERVER_ERROR }
+            }
+        }
+    }
     override suspend fun doRequest(dto: Any): Response {
         var response = Response()
         if (!isConnected()) {
@@ -19,8 +39,7 @@ class RetrofitNetworkClient(private val context: Context,
             when (dto) {
                 is JobSearchRequest -> {
                     response = service.jobSearch(
-                        query = dto.expression,
-                        page = dto.page,
+                        options = dto.request
                     )
 
                 }

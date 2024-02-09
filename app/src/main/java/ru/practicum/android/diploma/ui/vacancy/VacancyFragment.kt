@@ -18,7 +18,6 @@ import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 import ru.practicum.android.diploma.domain.models.DetailVacancy
 import ru.practicum.android.diploma.domain.models.ErrorNetwork
 
-
 class VacancyFragment : Fragment() {
 
     private var vacancyId: String? = null
@@ -26,14 +25,14 @@ class VacancyFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: VacancyViewModel by viewModel()
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentVacancyBinding.inflate(inflater, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,16 +58,11 @@ class VacancyFragment : Fragment() {
         }
     }
 
-
     private fun initViews(vacancy: DetailVacancy) {
-
-
         with(binding) {
-
             jobName.text = vacancy?.name
 
             jobSalary.text = " " // написать функцию преобразования зарплаты
-
 
             Glide.with(requireContext())
                 .load(vacancy?.areaUrl)
@@ -76,8 +70,6 @@ class VacancyFragment : Fragment() {
                 .fitCenter()
                 .transform(RoundedCorners(requireContext().resources.getDimensionPixelSize(R.dimen.margin_8)))
                 .into(ivCompany)
-
-
 
             companyName.text = vacancy.employerName
 
@@ -142,12 +134,10 @@ class VacancyFragment : Fragment() {
         }
     }
 
-
     private fun loading() {
         binding.progressBar.visibility = View.VISIBLE
         Log.d("Loading", "Loading was started")
     }
-
 
     private fun content(data: DetailVacancy) {
         binding.progressBar.visibility = GONE
@@ -156,7 +146,6 @@ class VacancyFragment : Fragment() {
     }
 
     private fun defaultSearch() {
-
     }
 
     private fun connectionError(error: ErrorNetwork) {
@@ -241,7 +230,6 @@ class VacancyFragment : Fragment() {
         Log.d("ConnectionError", "Connection Error")
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
@@ -254,8 +242,3 @@ class VacancyFragment : Fragment() {
 
     }
 }
-
-
-
-
-

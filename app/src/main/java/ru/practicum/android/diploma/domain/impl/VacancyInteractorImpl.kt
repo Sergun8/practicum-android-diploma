@@ -10,8 +10,6 @@ import ru.practicum.android.diploma.domain.models.ErrorNetwork
 
 class VacancyInteractorImpl(private val repository: SearchRepository) : VacancyInteractor {
     override fun getDetailVacancy(id: String): Flow<Pair<DetailVacancy?, ErrorNetwork?>> {
-
-
         return repository.getDetailVacancy(id).map { result ->
             when (result) {
                 is Resource.Success -> {

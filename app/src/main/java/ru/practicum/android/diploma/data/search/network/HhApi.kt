@@ -3,7 +3,7 @@ package ru.practicum.android.diploma.data.search.network
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.dto.response.CountryResponse
 import ru.practicum.android.diploma.data.dto.response.DetailVacancyDto
@@ -15,9 +15,7 @@ interface HhApi {
 
     @GET("/vacancies")
     suspend fun jobSearch(
-        @Query("text") query: String,
-        @Query("page") page: Int,
-        @Query("per_page") perPage: Int = 20,
+        @QueryMap options: Map<String, String>
     ): SearchListDto
 
     @GET("vacancies/{vacancy_id}")

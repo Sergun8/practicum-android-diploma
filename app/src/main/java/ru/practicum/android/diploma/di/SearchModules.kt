@@ -30,7 +30,7 @@ val SearchModules = module {
     }
 
     factory<SearchInteractor> {
-        SearchInteractorImpl(repository = get())
+        SearchInteractorImpl(get())
     }
 
     viewModel {

@@ -1,9 +1,5 @@
 package ru.practicum.android.diploma.domain.models
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
-
 data class DetailVacancy(
     val id: String,
     val areaId: String?,
