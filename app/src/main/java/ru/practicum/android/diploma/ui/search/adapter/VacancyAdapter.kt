@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.search
+package ru.practicum.android.diploma.ui.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,7 +16,7 @@ class VacancyAdapter(private val clickListener: VacancyClickListener) : Recycler
 
     override fun onBindViewHolder(holder: VacancyViewHolder, position: Int) {
         holder.bind(vacancyList[position])
-        holder.itemView.setOnClickListener { clickListener.onTrackClick(vacancyList[position]) }
+        holder.itemView.setOnClickListener { clickListener.onVacancyClick(vacancyList[position]) }
     }
 
     override fun getItemCount(): Int {
@@ -24,7 +24,7 @@ class VacancyAdapter(private val clickListener: VacancyClickListener) : Recycler
     }
 
     fun interface VacancyClickListener {
-        fun onTrackClick(vacancy: Vacancy)
+        fun onVacancyClick(vacancy: Vacancy)
     }
 
     fun setItems(newList: List<Vacancy>) {

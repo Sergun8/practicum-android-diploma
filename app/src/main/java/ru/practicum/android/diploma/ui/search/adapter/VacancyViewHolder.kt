@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.search
+package ru.practicum.android.diploma.ui.search.adapter
 
 import android.annotation.SuppressLint
 import android.view.View
