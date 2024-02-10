@@ -4,6 +4,7 @@ import VacancyDto
 import ru.practicum.android.diploma.data.dto.DetailVacancyDto
 import ru.practicum.android.diploma.data.dto.field.AreaDto
 import ru.practicum.android.diploma.data.dto.field.EmployerDto
+import ru.practicum.android.diploma.data.dto.field.KeySkillsDto
 import ru.practicum.android.diploma.data.dto.field.PhonesDto
 import ru.practicum.android.diploma.data.dto.response.SearchListDto
 import ru.practicum.android.diploma.domain.models.DetailVacancy
@@ -15,7 +16,7 @@ class Convertors {
         return Vacancy(
             id = vacancy.id,
             city = createAreaName(vacancy.area),
-            employerLogoUrls = vacancy.employer?.logoUrls?.logoUrl240,
+            employerLogoUrls = vacancy.employer.logoUrls?.logoUrl240,
             employer = createEmployerName(vacancy.employer),
             name = vacancy.name,
             currency = vacancy.salary?.currency,
@@ -46,17 +47,17 @@ class Convertors {
             description = vacancy.description,
             employerName = createEmployerName(vacancy.employer),
             employmentId = "",
-            employmentName = "",
+            employmentName = vacancy.employment.name,
             experienceId = "",
-            experienceName = "",
-            keySkillsNames = listOf(),
+            experienceName = vacancy.experience.name,
+            keySkillsNames = createKeySkills(vacancy.keySkills),
             name = vacancy.name,
-            salaryCurrency = "",
-            salaryFrom = null,
+            salaryCurrency = vacancy.salary?.currency,
+            salaryFrom = vacancy.salary?.from,
             salaryGross = false,
-            salaryTo = null,
+            salaryTo = vacancy.salary?.to,
             scheduleId = "",
-            scheduleName = "",
+            scheduleName = vacancy.schedule?.name,
         )
     }
 
@@ -78,6 +79,9 @@ class Convertors {
 
     private fun createPhone(phone: PhonesDto): String {
         return "+${phone.country}" + " (${phone.city})" + " ${phone.number}"
+    }
+    private fun createKeySkills(keySkills: List<KeySkillsDto>?): List<String?> {
+        return keySkills?.map { it.name } ?: emptyList()
     }
 
 }

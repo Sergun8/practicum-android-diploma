@@ -5,7 +5,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import ru.practicum.android.diploma.data.Constant.NO_CONNECTIVITY_MESSAGE
 import ru.practicum.android.diploma.data.Constant.SERVER_ERROR
 import ru.practicum.android.diploma.data.Constant.SUCCESS_RESULT_CODE
@@ -33,25 +32,24 @@ class RetrofitNetworkClient(
     }
 
     override suspend fun doRequest(dto: Any): Response {
-        var response = Response()
         if (!isConnected()) {
             return Response().apply { resultCode = NO_CONNECTIVITY_MESSAGE }
         }
-        return try {
-            when (dto) {
-                is JobSearchRequest -> response = service.jobSearch(
-                    options = dto.request)
-
-                is DetailVacancyRequest -> {
-                    response = service.getDetailVacancy(vacancyId = dto.id)
+        return if (dto is DetailVacancyRequest) {
+            withContext(Dispatchers.IO) {
+                try {
+                    val response = service.getDetailVacancy(vacancyId = dto.id)
+                    response.apply { resultCode = SUCCESS_RESULT_CODE }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    Response().apply { resultCode = SERVER_ERROR }
                 }
             }
-            response.apply { resultCode = SUCCESS_RESULT_CODE }
-
-        } catch (exception: HttpException) {
-            response.apply { resultCode = exception.code() }
+        } else {
+            Response().apply { resultCode = SERVER_ERROR }
         }
     }
+
     private fun isConnected(): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
