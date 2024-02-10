@@ -51,10 +51,10 @@ class Convertors {
             experienceName = "",
             keySkillsNames = listOf(),
             name = vacancy.name,
-            salaryCurrency = "",
-            salaryFrom = null,
+            salaryCurrency = vacancy.salary?.currency,
+            salaryFrom = vacancy.salary?.from,
             salaryGross = false,
-            salaryTo = null,
+            salaryTo = vacancy.salary?.to,
             scheduleId = "",
             scheduleName = "",
         )

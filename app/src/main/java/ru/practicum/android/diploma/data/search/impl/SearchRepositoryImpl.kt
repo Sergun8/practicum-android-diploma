@@ -61,7 +61,7 @@ class SearchRepositoryImpl(private val networkClient: NetworkClient) : SearchRep
             }
 
             SUCCESS_RESULT_CODE -> {
-                emit(Resource(Convertors().convertorToDetailVacancy(response as DetailVacancyDto)))
+                emit(Resource(data = Convertors().convertorToDetailVacancy(response as DetailVacancyDto)))
             }
 
             else -> {

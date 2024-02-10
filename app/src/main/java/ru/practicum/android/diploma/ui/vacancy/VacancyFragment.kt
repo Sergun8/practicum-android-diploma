@@ -1,12 +1,14 @@
 package ru.practicum.android.diploma.ui.vacancy
 
 import android.os.Bundle
+import android.text.Html.FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -15,6 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 import ru.practicum.android.diploma.domain.models.DetailVacancy
+import ru.practicum.android.diploma.util.ConvertSalary
 
 class VacancyFragment : Fragment() {
 
@@ -59,7 +62,8 @@ class VacancyFragment : Fragment() {
         with(binding) {
             jobName.text = vacancy.name
 
-            jobSalary.text = " " // написать функцию преобразования зарплаты
+            jobSalary.text =
+                ConvertSalary().formatSalaryWithCurrency(vacancy.salaryFrom, vacancy.salaryTo, vacancy.salaryCurrency)
 
             Glide.with(requireContext())
                 .load(vacancy.areaUrl)
@@ -74,9 +78,9 @@ class VacancyFragment : Fragment() {
 
             neededExperience.text = vacancy.experienceName
 
-            jobTime.text = vacancy.description
+            jobTime.text = vacancy.experienceName
             createContacts(vacancy)
-            createDiscription(vacancy)
+            createDiscription(vacancy.description)
             createKeySkills(vacancy)
 
         }
@@ -119,26 +123,16 @@ class VacancyFragment : Fragment() {
 
     }
 
-    private fun createDiscription(vacancy: DetailVacancy) {
-        with(binding) {
-            if (vacancy.description.isNullOrEmpty()) {
-                conditions.visibility = VISIBLE
-                // tvCon.visibility = VISIBLE
-            } else {
-                var conditions = ""
-                vacancy.description.forEach { condition ->
-                    conditions += " ${condition}\n"
-                }
-                // tvConditions.text = conditions
-            }
-        }
-
+    private fun createDiscription(description: String?) {
+        binding.tvDescription.text = HtmlCompat.fromHtml(
+            description?.replace(Regex("<li>\\s<p>|<li>"), "<li>\u00A0") ?: "",
+            HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM
+        )
     }
 
     private fun createKeySkills(vacancy: DetailVacancy) {
         with(binding) {
             if (vacancy.keySkillsNames.isNullOrEmpty()) {
-                requirements.visibility = VISIBLE
                 // tvRequirements.visibility = VISIBLE
             } else {
                 var skills = ""
