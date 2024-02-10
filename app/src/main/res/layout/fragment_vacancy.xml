@@ -146,6 +146,7 @@
                     android:text="company_city_text" />
 
                 <ImageView
+                    android:id="@+id/iv_company"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="@dimen/margin_16"

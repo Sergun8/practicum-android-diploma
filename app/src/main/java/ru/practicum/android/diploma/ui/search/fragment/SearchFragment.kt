@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -21,6 +20,7 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.search.adapter.VacancyAdapter
 import ru.practicum.android.diploma.ui.search.state.SearchState
 import ru.practicum.android.diploma.ui.search.viewmodel.SearchViewModel
+import ru.practicum.android.diploma.ui.vacancy.VacancyFragment
 import ru.practicum.android.diploma.util.debounce
 
 class SearchFragment : Fragment() {
@@ -89,12 +89,14 @@ class SearchFragment : Fragment() {
             }
         })
     }
+
     private fun render() {
         viewModel.viewStateLiveData.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is SearchState.Content -> {
                     vacancyAdapter?.setItems(state.vacancies)
                 }
+
                 is SearchState.FailedToGetList -> stateFailedLoaded()
                 is SearchState.Loading -> stateLoading()
                 is SearchState.Loaded -> stateLoaded()
@@ -102,22 +104,28 @@ class SearchFragment : Fragment() {
                     binding.progressBar.visibility = View.GONE
                     binding.bottomprogressBar.visibility = if (state.isLoading) View.VISIBLE else View.GONE
                 }
+
                 is SearchState.NoInternet -> {
                     stateNoInternet()
                 }
+
                 else -> {}
             }
 
         }
     }
+
     private fun initialAdapter() {
         vacancyAdapter = VacancyAdapter {
             vacancyClickDebounce?.let { vacancyClickDebounce -> vacancyClickDebounce(it) }
         }
 
         vacancyClickDebounce = debounce(CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false) {
-            val bundle = bundleOf("vacancy" to it.id)
-            findNavController().navigate(R.id.action_searchFragment_to_vacancyFragment, bundle)
+            val vacancyId = it.id
+            findNavController().navigate(
+                R.id.action_searchFragment_to_vacancyFragment,
+                VacancyFragment.createArgs(vacancyId)
+            )
         }
 
         vacancyAdapter = VacancyAdapter {
@@ -136,6 +144,7 @@ class SearchFragment : Fragment() {
             keyboardGone()
         }
     }
+
     private fun stateLoaded() {
         with(binding) {
             progressBar.visibility = View.GONE
@@ -145,6 +154,7 @@ class SearchFragment : Fragment() {
             rvSearch.visibility = View.VISIBLE
         }
     }
+
     private fun stateNoInternet() {
         with(binding) {
             notInternetImage.visibility = View.VISIBLE
@@ -156,6 +166,7 @@ class SearchFragment : Fragment() {
             placeholderImage.visibility = View.GONE
         }
     }
+
     private fun stateFailedLoaded() {
         with(binding) {
             tvError.visibility = View.VISIBLE
@@ -164,6 +175,7 @@ class SearchFragment : Fragment() {
             placeholderImage.visibility = View.GONE
         }
     }
+
     private fun stateClearEditText() {
         with(binding) {
             progressBar.visibility = View.GONE
@@ -179,22 +191,26 @@ class SearchFragment : Fragment() {
             keyboardVisible()
         }
     }
+
     private fun clearEditText() {
         binding.clearButton.setOnClickListener {
             binding.inputSearchForm.setText("")
             stateClearEditText()
         }
     }
+
     fun keyboardVisible() {
         val inputMethodManager =
             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.showSoftInput(binding.inputSearchForm, 0)
     }
+
     fun keyboardGone() {
         val inputMethodManager =
             activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(binding.fragmentSearch.windowToken, 0)
     }
+
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
