@@ -5,6 +5,7 @@ import ru.practicum.android.diploma.data.dto.field.AreaDto
 import ru.practicum.android.diploma.data.dto.field.ContactsDto
 import ru.practicum.android.diploma.data.dto.field.EmployerDto
 import ru.practicum.android.diploma.data.dto.field.EmploymentDto
+import ru.practicum.android.diploma.data.dto.field.Experience
 import ru.practicum.android.diploma.data.dto.field.KeySkillsDto
 import ru.practicum.android.diploma.data.dto.field.SalaryDto
 import ru.practicum.android.diploma.data.dto.field.ScheduleDto
@@ -18,11 +19,10 @@ data class DetailVacancyDto(
     val employer: EmployerDto?,
     val employment: EmploymentDto,
     val experienceId: String?,
-    val experienceName: String?,
+    val experience: Experience,
     @SerializedName("key_skills")
-    val keySkills: List<KeySkillsDto>,
+    val keySkills: List<KeySkillsDto>?,
     val name: String,
     val salary: SalaryDto?,
     val schedule: ScheduleDto?,
-
 ) : Response()

@@ -19,14 +19,14 @@ data class DetailVacancy(
     val employmentName: String?,
     val experienceId: String?,
     val experienceName: String?,
-    val keySkillsNames: List<String>,
+    val keySkillsNames: List<String?>,
     val name: String,
     val salaryCurrency: String?,
     val salaryFrom: Int?,
     val salaryGross: Boolean?,
     val salaryTo: Int?,
     val scheduleId: String?,
-    val scheduleName: String
+    val scheduleName: String?
 ) : Parcelable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

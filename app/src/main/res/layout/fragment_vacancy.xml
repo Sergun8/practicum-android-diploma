@@ -173,7 +173,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/ys_display_regular"
-                android:text="@string/needed_experience_data"
                 android:textSize="@dimen/font_size_16"
                 app:layout_constraintStart_toStartOf="@id/card_view_company"
                 app:layout_constraintTop_toBottomOf="@id/needed_experience" />
@@ -184,7 +183,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/ys_display_regular"
-                android:text="@string/work_time_text"
                 android:textSize="@dimen/font_size_16"
                 app:layout_constraintStart_toStartOf="@id/card_view_company"
                 app:layout_constraintTop_toBottomOf="@id/years_of_experience" />
@@ -413,6 +411,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
+            android:id="@+id/iv_server_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -420,6 +419,7 @@
             android:src="@drawable/ic_server_error" />
 
         <TextView
+            android:id="@+id/tv_server_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

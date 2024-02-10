@@ -61,9 +61,12 @@ class VacancyFragment : Fragment() {
     private fun initViews(vacancy: DetailVacancy) {
         with(binding) {
             jobName.text = vacancy.name
-
             jobSalary.text =
-                ConvertSalary().formatSalaryWithCurrency(vacancy.salaryFrom, vacancy.salaryTo, vacancy.salaryCurrency)
+                ConvertSalary().formatSalaryWithCurrency(
+                    vacancy.salaryFrom,
+                    vacancy.salaryTo,
+                    vacancy.salaryCurrency
+                )
 
             Glide.with(requireContext())
                 .load(vacancy.areaUrl)
@@ -73,25 +76,33 @@ class VacancyFragment : Fragment() {
                 .into(ivCompany)
 
             companyName.text = vacancy.employerName
-
             companyCity.text = vacancy.areaName
+            jobTime.text = vacancy.scheduleName
+            if (vacancy.experienceName == null) {
+                neededExperience.visibility = GONE
+                yearsOfExperience.visibility = GONE
+            } else {
+                neededExperience.visibility = VISIBLE
+                yearsOfExperience.visibility = VISIBLE
+                yearsOfExperience.text = vacancy.experienceName
 
-            neededExperience.text = vacancy.experienceName
+            }
 
-            jobTime.text = vacancy.experienceName
             createContacts(vacancy)
             createDiscription(vacancy.description)
-            createKeySkills(vacancy)
+            createKeySkills(vacancy.keySkillsNames)
 
         }
     }
 
     fun createContacts(vacancy: DetailVacancy) {
         with(binding) {
+            contactPersonData.text = vacancy.contactsName
+            contactPersonEmail.text = vacancy.contactsEmail
+
             if (
-                vacancy?.contactsName?.isNotEmpty() == true ||
-                vacancy?.contactsEmail?.isNotEmpty() == true ||
-                vacancy?.contactsPhones.toString()?.isNotEmpty() == true
+                vacancy.contactsName?.isNotEmpty() == true ||
+                vacancy.contactsEmail?.isNotEmpty() == true || vacancy.contactsPhones.toString().isNotEmpty()
             ) {
                 contactInformation.visibility = VISIBLE
                 contactPerson.visibility = VISIBLE
@@ -104,15 +115,15 @@ class VacancyFragment : Fragment() {
                 contactCommentData.visibility = VISIBLE
             }
 
-            if (vacancy?.contactsName?.isNotEmpty() == true) {
+            if (vacancy.contactsName?.isNotEmpty() == true) {
                 contactPersonData.text = vacancy.contactsName
             }
 
-            if (vacancy?.contactsEmail?.isNotEmpty() == true) {
+            if (vacancy.contactsEmail?.isNotEmpty() == true) {
                 contactPersonEmail.text = vacancy.contactsEmail
             }
 
-            if (vacancy?.contactsPhones?.isNotEmpty() == true) {
+            if (vacancy.contactsPhones?.isNotEmpty() == true) {
                 var phones = ""
                 vacancy.contactsPhones.forEach { phone ->
                     phones += " ${phone}\n"
@@ -130,16 +141,17 @@ class VacancyFragment : Fragment() {
         )
     }
 
-    private fun createKeySkills(vacancy: DetailVacancy) {
+    private fun createKeySkills(keySkills: List<String?>) {
         with(binding) {
-            if (vacancy.keySkillsNames.isNullOrEmpty()) {
-                // tvRequirements.visibility = VISIBLE
+            if (keySkills.isEmpty()) {
+                keySkillsRecyclerView.visibility = GONE
+                binding.keySkills.visibility = GONE
             } else {
                 var skills = ""
-                vacancy.keySkillsNames.forEach { skill ->
-                    skills += " ${skill}\n"
+                keySkills.forEach { skill ->
+                    skills += "- ${skill}\n"
                 }
-                // tvKeySkills.text = skills
+                keySkillsRecyclerView.text = skills
             }
         }
 
@@ -162,18 +174,9 @@ class VacancyFragment : Fragment() {
 
     private fun connectionError() {
         binding.progressBar.visibility = GONE
-
         with(binding) {
-            contactInformation.visibility = GONE
-            contactPerson.visibility = VISIBLE
-            contactPerson.text = "Нет интернета"
-            contactPersonData.visibility = GONE
-            contactPersonEmail.visibility = GONE
-            contactPersonPhone.visibility = GONE
-            contactPersonPhone.visibility = GONE
-            contactPersonPhoneData.visibility = GONE
-            contactComment.visibility = GONE
-            contactCommentData.visibility = GONE
+            tvServerError.visibility = VISIBLE
+            ivServerError.visibility = VISIBLE
         }
     }
 
