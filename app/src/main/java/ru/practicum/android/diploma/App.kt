@@ -4,6 +4,7 @@ import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 import ru.practicum.android.diploma.di.SearchModules
+import ru.practicum.android.diploma.di.SimilarModule
 import ru.practicum.android.diploma.di.VacancyModule
 
 class App : Application() {
@@ -13,7 +14,7 @@ class App : Application() {
 
         startKoin {
             androidContext(this@App)
-            modules(SearchModules, VacancyModule)
+            modules(SearchModules, VacancyModule, SimilarModule)
         }
     }
 }

@@ -96,7 +96,7 @@
     </fragment>
     <fragment
         android:id="@+id/similarVacanciesFragment"
-        android:name="ru.practicum.android.diploma.ui.filtre.SimilarVacanciesFragment"
+        android:name="ru.practicum.android.diploma.ui.similar.SimilarVacanciesFragment"
         android:label="fragment_similar_vacancies"
         tools:layout="@layout/fragment_similar_vacancies" />
 </navigation>

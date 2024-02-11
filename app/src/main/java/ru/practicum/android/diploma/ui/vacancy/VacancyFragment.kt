@@ -16,6 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 import ru.practicum.android.diploma.domain.models.DetailVacancy
+import ru.practicum.android.diploma.ui.similar.SimilarVacanciesFragment
 import ru.practicum.android.diploma.util.ConvertSalary
 
 class VacancyFragment : Fragment() {
@@ -42,9 +43,15 @@ class VacancyFragment : Fragment() {
 
         vacancyId = requireArguments().getString(ARGS_VACANCY)
         viewModel.getVacancyDetail(vacancyId!!)
-
         viewModel.vacancyState.observe(viewLifecycleOwner) { state ->
             render(state)
+        }
+        binding.buttonSimilar.setOnClickListener {
+            val vacancyId = it.id.toString()
+            findNavController().navigate(
+                R.id.action_vacancyFragment_to_similarVacanciesFragment,
+                SimilarVacanciesFragment.createArgs(vacancyId)
+            )
         }
     }
 

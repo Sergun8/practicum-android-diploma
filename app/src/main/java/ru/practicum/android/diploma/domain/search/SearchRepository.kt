@@ -12,4 +12,5 @@ interface SearchRepository {
         page: Int,
     ): Flow<Pair<Resource<List<Vacancy>>, PagingInfo>>
     suspend fun getDetailVacancy(id: String): Flow<Resource<DetailVacancy>>
+    suspend fun getSimilarVacancy(id: String): Flow<Resource<List<Vacancy>>>
 }

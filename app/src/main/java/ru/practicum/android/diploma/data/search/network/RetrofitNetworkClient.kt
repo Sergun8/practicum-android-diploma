@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import ru.practicum.android.diploma.data.Constant.NO_CONNECTIVITY_MESSAGE
 import ru.practicum.android.diploma.data.Constant.SERVER_ERROR
 import ru.practicum.android.diploma.data.Constant.SUCCESS_RESULT_CODE
@@ -35,18 +36,26 @@ class RetrofitNetworkClient(
         if (!isConnected()) {
             return Response().apply { resultCode = NO_CONNECTIVITY_MESSAGE }
         }
-        return if (dto is DetailVacancyRequest) {
-            withContext(Dispatchers.IO) {
-                try {
-                    val response = service.getDetailVacancy(vacancyId = dto.id)
+        var response = Response()
+        return try {
+            when (dto) {
+                is DetailVacancyRequest -> withContext(Dispatchers.IO) {
+                    response = service.getDetailVacancy(vacancyId = dto.id)
                     response.apply { resultCode = SUCCESS_RESULT_CODE }
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    Response().apply { resultCode = SERVER_ERROR }
+                }
+
+                is SimilarRequest -> withContext(Dispatchers.IO) {
+                    response = service.similarVacancy(dto.id)
+                    response.apply { resultCode = SUCCESS_RESULT_CODE }
+                }
+
+                else -> {
+                    response.apply { resultCode = SERVER_ERROR }
                 }
             }
-        } else {
-            Response().apply { resultCode = SERVER_ERROR }
+        } catch (exception: HttpException) {
+            Response().apply { resultCode = exception.code() }
+
         }
     }
 

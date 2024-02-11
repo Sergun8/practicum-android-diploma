@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_similar_vacancies"
-    tools:context=".ui.filtre.SimilarVacanciesFragment">
+    tools:context=".ui.similar.SimilarVacanciesFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/similar_toolbars"
