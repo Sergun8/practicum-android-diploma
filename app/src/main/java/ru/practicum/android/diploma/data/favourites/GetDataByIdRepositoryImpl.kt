@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.data.room
+package ru.practicum.android.diploma.data.favourites
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -6,30 +6,28 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import ru.practicum.android.diploma.Resource
 import ru.practicum.android.diploma.data.dto.response.VacancyDetailsSearchResponse
+import ru.practicum.android.diploma.data.room.AppDatabase
+import ru.practicum.android.diploma.data.room.VacancyConverter
+import ru.practicum.android.diploma.data.room.VacancyDetails
+import ru.practicum.android.diploma.data.room.VacancyDetailsConverter
+import ru.practicum.android.diploma.data.room.VacancyDetailsSearchRequest
 import ru.practicum.android.diploma.data.search.network.NetworkClient
 import ru.practicum.android.diploma.data.search.network.RetrofitNetworkClient
-import ru.practicum.android.diploma.domain.api.DeleteDataInterface
-import ru.practicum.android.diploma.domain.api.GetDataByIdInterface
-import ru.practicum.android.diploma.domain.api.SaveDataInterface
+import ru.practicum.android.diploma.domain.api.GetDataByIdRepository
 import ru.practicum.android.diploma.domain.models.ErrorNetwork
 
-class VacancyRepositoryDB(
-    private val dao: VacancyDao,
+class GetDataByIdRepositoryImpl(
+    private val db: AppDatabase,
     private val networkClient: NetworkClient
-) : DeleteDataInterface<String>, SaveDataInterface<VacancyDetails>, GetDataByIdInterface<Resource<VacancyDetails>> {
-
-    override suspend fun delete(data: String) {
-        dao.deleteVacancy(data)
-    }
-
+) : GetDataByIdRepository {
     override fun getById(id: String): Flow<Resource<VacancyDetails>> = flow {
-        val vacancyFromDb = dao.getVacancyById(id)?.let { vacancyEntity ->
+        val vacancyFromDb = db.vacancyDao().getVacancyById(id)?.let { vacancyEntity ->
             VacancyConverter.map(vacancyEntity)
         }
         if (vacancyFromDb != null) {
             val response = networkClient.doRequest(VacancyDetailsSearchRequest(id))
             if (response.resultCode == RetrofitNetworkClient.SUCCESS_RESULT_CODE) {
-                dao.updateVacancy(
+                db.vacancyDao().updateVacancy(
                     VacancyConverter.map(
                         VacancyDetailsConverter.map((response as VacancyDetailsSearchResponse).dto)
                     )
@@ -57,11 +55,4 @@ class VacancyRepositoryDB(
             }
         }
     }.flowOn(Dispatchers.IO)
-
-    override suspend fun save(data: VacancyDetails?) {
-        data?.run {
-            dao.saveVacancy(VacancyConverter.map(this))
-        }
-    }
-
 }

@@ -1,27 +1,31 @@
 package ru.practicum.android.diploma.di
 
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import ru.practicum.android.diploma.Resource
-import ru.practicum.android.diploma.data.room.VacancyDetails
-import ru.practicum.android.diploma.data.room.VacancyDetailsDto
-import ru.practicum.android.diploma.data.room.VacancyRepositoryDB
-import ru.practicum.android.diploma.domain.api.DeleteDataInterface
-import ru.practicum.android.diploma.domain.api.GetDataByIdInterface
-import ru.practicum.android.diploma.domain.api.GetDataInterface
-import ru.practicum.android.diploma.domain.impl.FavouritesVacancyListRepositoryImpl
-import ru.practicum.android.diploma.domain.models.Vacancy
-import ru.practicum.android.diploma.ui.favourite.FavoritesViewModel
+import ru.practicum.android.diploma.data.favourites.DeleteDataRepositoryImpl
+import ru.practicum.android.diploma.data.favourites.GetDataByIdRepositoryImpl
+import ru.practicum.android.diploma.data.favourites.GetDataRepositoryImpl
+import ru.practicum.android.diploma.data.favourites.SaveDataRepositoryImpl
+import ru.practicum.android.diploma.data.search.network.NetworkClient
+import ru.practicum.android.diploma.data.search.network.RetrofitNetworkClient
+import ru.practicum.android.diploma.domain.api.DeleteDataRepository
+import ru.practicum.android.diploma.domain.api.GetDataByIdRepository
+import ru.practicum.android.diploma.domain.api.GetDataRepository
+import ru.practicum.android.diploma.domain.api.SaveDataRepository
 
 val FavouriteModule = module {
-    viewModel { FavoritesViewModel(get(), get()) }
-    single<DeleteDataInterface<String>>{
-        VacancyRepositoryDB(get(),get())
+    single<DeleteDataRepository> {
+        DeleteDataRepositoryImpl(get())
     }
-    single<GetDataInterface<List<Vacancy>>> {
-        FavouritesVacancyListRepositoryImpl(get())
+    single<GetDataRepository> {
+        GetDataRepositoryImpl(get())
     }
-    single<GetDataByIdInterface<Resource<VacancyDetails>>>{
-        VacancyRepositoryDB(get(),get())
+    single<GetDataByIdRepository> {
+        GetDataByIdRepositoryImpl(get(), get())
+    }
+    single<SaveDataRepository> {
+        SaveDataRepositoryImpl(get())
+    }
+    single<NetworkClient> {
+        RetrofitNetworkClient(service = get())
     }
 }

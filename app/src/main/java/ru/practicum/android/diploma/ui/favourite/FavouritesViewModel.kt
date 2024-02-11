@@ -7,16 +7,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.domain.api.DeleteDataInterface
-import ru.practicum.android.diploma.domain.api.GetDataInterface
+import ru.practicum.android.diploma.domain.api.DeleteDataRepository
+import ru.practicum.android.diploma.domain.api.GetDataRepository
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.presentation.FavouritesState
 import java.sql.SQLException
-import javax.inject.Inject
 
 class FavoritesViewModel(
-    private val favoritesVacancyListRepository: GetDataInterface<List<Vacancy>>,
-    private val deleteVacancyRepository: DeleteDataInterface<String>,
+    private val favoritesVacancyListRepository: GetDataRepository,
+    private val deleteVacancyRepository: DeleteDataRepository,
 ) : ViewModel() {
 
     private val screenStatement: MutableLiveData<FavouritesState> = MutableLiveData()

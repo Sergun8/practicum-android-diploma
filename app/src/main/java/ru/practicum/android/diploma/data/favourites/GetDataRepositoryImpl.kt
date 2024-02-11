@@ -1,16 +1,15 @@
-package ru.practicum.android.diploma.domain.impl
+package ru.practicum.android.diploma.data.favourites
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.practicum.android.diploma.data.room.VacancyDao
 import ru.practicum.android.diploma.data.room.VacancyShortMapper
-import ru.practicum.android.diploma.domain.api.GetDataByIdInterface
-import ru.practicum.android.diploma.domain.api.GetDataInterface
+import ru.practicum.android.diploma.domain.api.GetDataRepository
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-class FavouritesVacancyListRepositoryImpl(
+class GetDataRepositoryImpl(
     private val vacancyDao: VacancyDao
-) : GetDataInterface<List<Vacancy>> {
+) : GetDataRepository {
 
     override fun get(): Flow<List<Vacancy>?> =
         vacancyDao.getVacancyList().map { list ->

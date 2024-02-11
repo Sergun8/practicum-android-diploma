@@ -11,5 +11,5 @@ import androidx.room.RoomDatabase
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract val vacancyDao: VacancyDao
+    abstract fun vacancyDao(): VacancyDao
 }

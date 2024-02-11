@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFavouritesBinding
 import ru.practicum.android.diploma.presentation.FavouritesState
@@ -25,7 +26,7 @@ private const val ITEM_VIEW_HEIGHT_DIVIDER = 2.8
 class FavoritesFragment : Fragment() {
     private var _binding: FragmentFavouritesBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: FavoritesViewModel by viewModels()
+    private val viewModel by viewModel<FavoritesViewModel>()
     private var vacanciesAdapter: VacancyAdapter? = null
 
     override fun onCreateView(
