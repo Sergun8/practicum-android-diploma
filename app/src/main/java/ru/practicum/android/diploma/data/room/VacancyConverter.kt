@@ -4,32 +4,37 @@ import ru.practicum.android.diploma.domain.models.DetailVacancy
 import java.util.stream.Collectors
 
 object VacancyConverter {
-    fun map(entity: VacancyEntity): DetailVacancy = DetailVacancy(
+    fun map(entity: VacancyEntity): VacancyDetails = VacancyDetails(
         id = entity.id,
-        areaUrl = entity.url,
+        url = entity.url,
         name = entity.name,
-        areaName = entity.area,
+        area = entity.area,
         salaryCurrency = entity.salaryCurrency,
         salaryFrom = entity.salaryFrom,
         salaryTo = entity.salaryTo,
         salaryGross = entity.salaryGross,
-        experienceName = entity.experience,
-        scheduleId = entity.schedule,
-        contactsName = entity.contactName,
-        contactsEmail = entity.contactEmail,
-        contactsPhones = entity.phones?.split(";"),
-        scheduleName = entity.contactComment!!,
-        employmentId = entity.employerUrl,
-        employmentName = entity.employerName,
-        keySkillsNames = entity.keySkills?.split(";")!!,
+        experience = entity.experience,
+        schedule = entity.schedule,
+        contactName = entity.contactName,
+        contactEmail = entity.contactEmail,
+        phones = entity.phones?.split(";"),
+        contactComment = entity.contactComment,
+        logoUrl = entity.logoUrl,
+        logoUrl90 = entity.logoUrl90,
+        logoUrl240 = entity.logoUrl240,
+        address = entity.address,
+        employerUrl = entity.employerUrl,
+        employerName = entity.employerName,
+        employment = entity.employment,
+        keySkills = entity.keySkills?.split(";"),
         description = entity.description,
     ).apply {
-        isFavoriteWrapper.isFavorite = true
+        isFavorite.isFavorite = true
     }
 
-    fun map(vacancy: DetailVacancy): VacancyEntity = VacancyEntity(
+    fun map(vacancy: VacancyDetails): VacancyEntity = VacancyEntity(
         id = vacancy.id,
-        url = vacancy.areaUrl.toString()!!,
+        url = vacancy.url,
         name = vacancy.name,
         area = vacancy.area,
         salaryCurrency = vacancy.salaryCurrency,
@@ -50,6 +55,7 @@ object VacancyConverter {
         employerName = vacancy.employerName,
         employment = vacancy.employment,
         keySkills = vacancy.keySkills?.stream()?.collect(Collectors.joining(";")),
+        salary = vacancy.salaryCurrency.toString(),
         description = vacancy.description,
     )
 }

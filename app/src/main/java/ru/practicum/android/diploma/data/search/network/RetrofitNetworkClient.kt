@@ -26,8 +26,8 @@ class RetrofitNetworkClient(
     }
 
     companion object {
-        private const val NO_INTERNET_CONNECTION_CODE = -1
-        private const val SUCCESS_RESULT_CODE = 200
+        const val NO_INTERNET_CONNECTION_CODE = -1
+        const val SUCCESS_RESULT_CODE = 200
         const val HH_BASE_URL = "https://api.hh.ru/"
     }
 }

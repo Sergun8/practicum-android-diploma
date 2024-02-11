@@ -4,7 +4,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.data.dto.VacancyDto
 import ru.practicum.android.diploma.data.dto.field.AreaDto
 import ru.practicum.android.diploma.data.dto.field.EmployerDto
-import ru.practicum.android.diploma.data.dto.field.LogoUrlDto
+import ru.practicum.android.diploma.data.dto.field.LogoUrlsDto
 import ru.practicum.android.diploma.data.dto.field.SalaryDto
 import ru.practicum.android.diploma.data.dto.response.SearchListDto
 import ru.practicum.android.diploma.domain.models.SearchList
@@ -15,7 +15,7 @@ class Convertors {
         return Vacancy(
             id = vacancy.id,
             area = createAreaName(vacancy.area),
-            alternateUrl = createLogoUrl(vacancy.employer?.logoUrls),
+            alternateUrl = createLogoUrl(vacancy.employer?.logoUrlsDto),
             employer = createEmployerName(vacancy.employer),
             name = vacancy.name,
             salary = createSalary(vacancy.salary)
@@ -76,11 +76,11 @@ class Convertors {
         }
     }
 
-    private fun createLogoUrl(logo: LogoUrlDto?): String? {
-        return if (logo?.logoUrl90 == null) {
+    private fun createLogoUrl(logo: LogoUrlsDto?): String? {
+        return if (logo?.art90 == null) {
             null
         } else {
-           return logo.logoUrl90
+           return logo.art90
         }
     }
 }
