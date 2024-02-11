@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.ui.vacancy
 
 import android.os.Bundle
-import android.text.Html.FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -32,15 +31,15 @@ class VacancyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentVacancyBinding.inflate(inflater, container, false)
+        binding.vacancyToolbars.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.arrowBackButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
         vacancyId = requireArguments().getString(ARGS_VACANCY)
         viewModel.getVacancyDetail(vacancyId!!)
 
@@ -87,43 +86,32 @@ class VacancyFragment : Fragment() {
                 yearsOfExperience.text = vacancy.experienceName
 
             }
-
-            createContacts(vacancy)
             createDiscription(vacancy.description)
             createKeySkills(vacancy.keySkillsNames)
-
+            createContacts(vacancy)
         }
     }
 
     fun createContacts(vacancy: DetailVacancy) {
         with(binding) {
-            contactPersonData.text = vacancy.contactsName
-            contactPersonEmail.text = vacancy.contactsEmail
-
             if (
-                vacancy.contactsName?.isNotEmpty() == true ||
-                vacancy.contactsEmail?.isNotEmpty() == true || vacancy.contactsPhones.toString().isNotEmpty()
+                vacancy.contactsName == null ||
+                vacancy.contactsEmail == null ||
+                vacancy.contactsPhones == null
             ) {
-                contactInformation.visibility = VISIBLE
-                contactPerson.visibility = VISIBLE
-                contactPersonData.visibility = VISIBLE
-                contactPersonEmail.visibility = VISIBLE
-                contactPersonPhone.visibility = VISIBLE
-                contactPersonPhone.visibility = VISIBLE
-                contactPersonPhoneData.visibility = VISIBLE
-                contactComment.visibility = VISIBLE
-                contactCommentData.visibility = VISIBLE
+                contactInformation.visibility = GONE
+                contactPerson.visibility = GONE
+                contactInformation.visibility = GONE
+                contactPersonEmail.visibility = GONE
+                contactPersonPhone.visibility = GONE
             }
-
-            if (vacancy.contactsName?.isNotEmpty() == true) {
+            if (vacancy.contactsName != null) {
                 contactPersonData.text = vacancy.contactsName
             }
-
-            if (vacancy.contactsEmail?.isNotEmpty() == true) {
-                contactPersonEmail.text = vacancy.contactsEmail
+            if (vacancy.contactsEmail != null) {
+                contactPersonEmailData.text = vacancy.contactsEmail
             }
-
-            if (vacancy.contactsPhones?.isNotEmpty() == true) {
+            if (vacancy.contactsPhones != null) {
                 var phones = ""
                 vacancy.contactsPhones.forEach { phone ->
                     phones += " ${phone}\n"
@@ -131,7 +119,6 @@ class VacancyFragment : Fragment() {
                 contactPersonPhoneData.text = phones
             }
         }
-
     }
 
     private fun createDiscription(description: String?) {
@@ -149,7 +136,7 @@ class VacancyFragment : Fragment() {
             } else {
                 var skills = ""
                 keySkills.forEach { skill ->
-                    skills += "- ${skill}\n"
+                    skills += "• ${skill}\n"
                 }
                 keySkillsRecyclerView.text = skills
             }
@@ -159,22 +146,26 @@ class VacancyFragment : Fragment() {
 
     private fun loading() {
         binding.progressBar.visibility = VISIBLE
+        binding.fragmentNotifications.visibility = GONE
 
     }
 
     private fun content(data: DetailVacancy) {
         binding.progressBar.visibility = GONE
         initViews(data)
+        binding.fragmentNotifications.visibility = VISIBLE
 
     }
 
     private fun defaultSearch() {
         binding.progressBar.visibility = GONE
+        binding.fragmentNotifications.visibility = GONE
     }
 
     private fun connectionError() {
-        binding.progressBar.visibility = GONE
         with(binding) {
+            progressBar.visibility = GONE
+            fragmentNotifications.visibility = GONE
             tvServerError.visibility = VISIBLE
             ivServerError.visibility = VISIBLE
         }

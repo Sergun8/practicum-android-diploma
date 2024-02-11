@@ -1,4 +1,4 @@
-
+package ru.practicum.android.diploma.data.dto
 
 import ru.practicum.android.diploma.data.dto.field.AreaDto
 import ru.practicum.android.diploma.data.dto.field.EmployerDto

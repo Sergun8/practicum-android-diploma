@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.data
 
-import VacancyDto
 import ru.practicum.android.diploma.data.dto.DetailVacancyDto
+import ru.practicum.android.diploma.data.dto.VacancyDto
 import ru.practicum.android.diploma.data.dto.field.AreaDto
 import ru.practicum.android.diploma.data.dto.field.EmployerDto
 import ru.practicum.android.diploma.data.dto.field.KeySkillsDto
@@ -44,6 +44,7 @@ class Convertors {
             contactsEmail = vacancy.contacts?.email,
             contactsName = vacancy.contacts?.name,
             contactsPhones = vacancy.contacts?.phones.let { list -> list?.map { createPhone(it) } },
+            comment = null,
             description = vacancy.description,
             employerName = createEmployerName(vacancy.employer),
             employmentId = "",
@@ -61,17 +62,17 @@ class Convertors {
         )
     }
 
-    private fun createAreaName(area: AreaDto?): String {
+    private fun createAreaName(area: AreaDto?): String? {
         return if (area?.name == null) {
-            "null"
+            null
         } else {
             area.name
         }
     }
 
-    private fun createEmployerName(employerName: EmployerDto?): String {
+    private fun createEmployerName(employerName: EmployerDto?): String? {
         return if (employerName?.name == null) {
-            "null"
+            null
         } else {
             employerName.name
         }
