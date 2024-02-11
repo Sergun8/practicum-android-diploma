@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.search.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,7 @@ class VacancyAdapter(private val clickListener: VacancyClickListener) : Recycler
         fun onVacancyClick(vacancy: Vacancy)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setItems(newList: List<Vacancy>) {
         vacancyList = newList
         notifyDataSetChanged()

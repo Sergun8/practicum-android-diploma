@@ -15,6 +15,7 @@ import ru.practicum.android.diploma.data.search.network.JobSearchRequest
 import ru.practicum.android.diploma.data.search.network.NetworkClient
 import ru.practicum.android.diploma.data.search.network.PagingInfo
 import ru.practicum.android.diploma.data.search.network.Resource
+import ru.practicum.android.diploma.data.search.network.SimilarRequest
 import ru.practicum.android.diploma.domain.models.DetailVacancy
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.search.SearchRepository
@@ -53,6 +54,7 @@ class SearchRepositoryImpl(private val networkClient: NetworkClient) : SearchRep
         }
 
     }
+
     override suspend fun getDetailVacancy(id: String): Flow<Resource<DetailVacancy>> = flow {
         val response = networkClient.doRequest(DetailVacancyRequest(id))
         when (response.resultCode) {
@@ -70,4 +72,23 @@ class SearchRepositoryImpl(private val networkClient: NetworkClient) : SearchRep
         }
     }
 
+    override suspend fun getSimilarVacancy(id: String): Flow<Resource<List<Vacancy>>> = flow {
+        val response = networkClient.doRequest(SimilarRequest(id))
+        when (response.resultCode) {
+            NO_CONNECTIVITY_MESSAGE -> {
+                emit(Resource(code = NO_CONNECTIVITY_MESSAGE))
+            }
+
+            SUCCESS_RESULT_CODE -> {
+                emit(
+                    Resource(
+                        (response as SearchListDto).results.map { vacancyDto ->
+                            Convertors().convertorToVacancy(vacancyDto)
+                        },
+                        SUCCESS_RESULT_CODE
+                    )
+                )
+            }
+        }
+    }
 }
