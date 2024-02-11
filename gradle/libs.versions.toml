@@ -1,6 +1,7 @@
 [versions]
 
 glide = "4.15.1"
+hiltAndroidGradlePlugin = "2.46"
 java = "VERSION_1_8"
 
 # Build constants
@@ -21,6 +22,7 @@ org-jetbrains-kotlin-android = "1.9.0"
 
 # Detekt
 github-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltAndroidGradlePlugin" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 retrofit2-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 room-ktx-2_5_2 = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
@@ -80,7 +82,7 @@ coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
 #paging
 paging = "androidx.paging:paging-runtime:3.2.1"
 
-# SafeArgs
+#SafeArgs
 safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:2.7.5"
 
 [bundles]

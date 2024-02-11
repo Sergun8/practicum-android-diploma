@@ -14,7 +14,7 @@ import ru.practicum.android.diploma.presentation.FavouritesState
 import java.sql.SQLException
 import javax.inject.Inject
 
-class FavoritesViewModel @Inject constructor(
+class FavoritesViewModel(
     private val favoritesVacancyListRepository: GetDataInterface<List<Vacancy>>,
     private val deleteVacancyRepository: DeleteDataInterface<String>,
 ) : ViewModel() {
@@ -23,7 +23,7 @@ class FavoritesViewModel @Inject constructor(
     val screenState: LiveData<FavouritesState> get() = screenStatement
 
     //Получение данных
-    init {
+    fun getData() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 favoritesVacancyListRepository.get().collect { list ->

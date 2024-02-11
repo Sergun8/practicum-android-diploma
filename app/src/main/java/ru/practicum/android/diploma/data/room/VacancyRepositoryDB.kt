@@ -22,7 +22,7 @@ class VacancyRepositoryDB(
         dao.deleteVacancy(data)
     }
 
-    override fun get(id: String): Flow<Resource<VacancyDetails>> = flow {
+    override fun getById(id: String): Flow<Resource<VacancyDetails>> = flow {
         val vacancyFromDb = dao.getVacancyById(id)?.let { vacancyEntity ->
             VacancyConverter.map(vacancyEntity)
         }

@@ -7,6 +7,10 @@ plugins {
     id("androidx.navigation.safeargs")
 }
 android {
+
+    packagingOptions {
+        resources.excludes.add("META-INF/gradle/incremental.annotation.processors")
+    }
     namespace = "ru.practicum.android.diploma"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
@@ -78,4 +82,7 @@ dependencies {
     implementation(libs.fragments.navigationFragment)
     implementation(libs.fragments.navigationUi)
     implementation(libs.fragments.fragmentKtx)
+}
+kapt {
+    correctErrorTypes = true
 }
