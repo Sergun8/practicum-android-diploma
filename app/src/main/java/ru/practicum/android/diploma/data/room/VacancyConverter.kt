@@ -34,9 +34,9 @@ object VacancyConverter {
 
     fun map(vacancy: VacancyDetails): VacancyEntity = VacancyEntity(
         id = vacancy.id,
-        url = vacancy.url,
-        name = vacancy.name,
-        area = vacancy.area,
+        url = vacancy.url!!,
+        name = vacancy.name!!,
+        area = vacancy.area!!,
         salaryCurrency = vacancy.salaryCurrency,
         salaryFrom = vacancy.salaryFrom,
         salaryTo = vacancy.salaryTo,
@@ -56,6 +56,6 @@ object VacancyConverter {
         employment = vacancy.employment,
         keySkills = vacancy.keySkills?.stream()?.collect(Collectors.joining(";")),
         salary = vacancy.salaryCurrency.toString(),
-        description = vacancy.description,
+        description = vacancy.description!!,
     )
 }

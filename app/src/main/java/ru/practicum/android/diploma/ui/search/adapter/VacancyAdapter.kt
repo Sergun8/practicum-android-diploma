@@ -3,11 +3,9 @@ package ru.practicum.android.diploma.ui.search
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Vacancy
-import ru.practicum.android.diploma.util.Paginaciya
 
 class VacancyAdapter(private val clickListener: VacancyClickListener) : RecyclerView.Adapter<VacancyViewHolder>() {
     var vacancyList = ArrayList<Vacancy>()
@@ -32,7 +30,7 @@ class VacancyAdapter(private val clickListener: VacancyClickListener) : Recycler
 
     @SuppressLint("NotifyDataSetChanged")
     fun setItems(newList: List<Vacancy>) {
-        vacancyList = newList
+        vacancyList = newList as ArrayList<Vacancy>
         notifyDataSetChanged()
     }
 

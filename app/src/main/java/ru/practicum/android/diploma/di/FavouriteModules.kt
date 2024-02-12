@@ -26,6 +26,6 @@ val FavouriteModule = module {
         SaveDataRepositoryImpl(get())
     }
     single<NetworkClient> {
-        RetrofitNetworkClient(service = get())
+        RetrofitNetworkClient(get(),get())
     }
 }

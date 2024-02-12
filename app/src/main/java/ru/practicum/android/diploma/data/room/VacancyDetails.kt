@@ -2,9 +2,9 @@ package ru.practicum.android.diploma.data.room
 
 data class VacancyDetails(
     val id: String,
-    val url: String,
-    val name: String,
-    val area: String,
+    val url: String?,
+    val name: String?,
+    val area: String?,
     val salaryCurrency: String?,
     val salaryFrom: Int?,
     val salaryTo: Int?,
@@ -23,7 +23,7 @@ data class VacancyDetails(
     val employerName: String?,
     val employment: String?,
     val keySkills: List<String>?,
-    val description: String,
+    val description: String?,
 ) {
     val isFavorite: FavBooleanClass = FavBooleanClass()
 }

@@ -6,10 +6,13 @@ object VacancyShortMapper {
 
     fun map(vacancyShort: VacancyShort): Vacancy = Vacancy(
         id = vacancyShort.id,
-        area = vacancyShort.area,
-        alternateUrl = vacancyShort.alternateUrl ?: "",
+        city = vacancyShort.area,
+        employerLogoUrls = vacancyShort.alternateUrl ?: "",
         employer = vacancyShort.employer ?: "",
         name = vacancyShort.name,
-        salary = vacancyShort.salary
+        salaryTo = 0,
+        salaryFrom = 0,
+        currency = vacancyShort.salary
+
     )
 }

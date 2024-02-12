@@ -72,7 +72,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun renderContent(state: FavouritesState) {
-        vacanciesAdapter?.setVacancies((state as FavouritesState.Content).vacancies)
+        vacanciesAdapter?.setItems((state as FavouritesState.Content).vacancies)
         binding.groupEmpty.visibility = View.GONE
         binding.groupError.visibility = View.GONE
         binding.rvVacancies.visibility = View.VISIBLE

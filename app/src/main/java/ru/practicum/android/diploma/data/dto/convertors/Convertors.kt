@@ -14,11 +14,13 @@ class Convertors {
     private fun convertorToVacancy(vacancy: VacancyDto): Vacancy {
         return Vacancy(
             id = vacancy.id,
-            area = createAreaName(vacancy.area),
-            alternateUrl = createLogoUrl(vacancy.employer?.logoUrlsDto),
+            city = createAreaName(vacancy.area),
+            employerLogoUrls = createLogoUrl(vacancy.employer?.logoUrlsDto),
             employer = createEmployerName(vacancy.employer),
             name = vacancy.name,
-            salary = createSalary(vacancy.salary)
+            currency = createSalary(vacancy.salary),
+            salaryFrom = vacancy.salary?.from,
+            salaryTo = vacancy.salary?.to
         )
     }
 

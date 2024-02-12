@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.ui.vacancy
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -53,6 +54,9 @@ class VacancyFragment : Fragment() {
                 SimilarVacanciesFragment.createArgs(vacancyId)
             )
         }
+        binding.buttonAddToFavorites.setOnClickListener{
+            viewModel.clickOnButton()
+        }
     }
 
     private fun render(stateLiveData: VacancyState) {
@@ -94,7 +98,7 @@ class VacancyFragment : Fragment() {
 
             }
             createDiscription(vacancy.description)
-            createKeySkills(vacancy.keySkillsNames)
+            createKeySkills(vacancy.keySkillsNames!!)
             createContacts(vacancy)
         }
     }
@@ -161,6 +165,7 @@ class VacancyFragment : Fragment() {
         binding.progressBar.visibility = GONE
         initViews(data)
         binding.fragmentNotifications.visibility = VISIBLE
+        Log.d("Vacancy Details:", "$data")
 
     }
 
