@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -121,11 +122,11 @@ class SearchFragment : Fragment() {
         }
 
         vacancyClickDebounce = debounce(CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false) {
-            val vacancyId = it.id
-            findNavController().navigate(
-                R.id.action_searchFragment_to_vacancyFragment,
-                VacancyFragment.createArgs(vacancyId)
-            )
+            val navController = findNavController()
+            val bundle = Bundle()
+            Log.d("bundle", "$bundle")
+            bundle.putParcelable("vacancyId", it)
+            navController.navigate(R.id.vacancyFragment, bundle)
         }
 
         vacancyAdapter = VacancyAdapter {

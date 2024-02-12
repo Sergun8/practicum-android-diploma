@@ -42,11 +42,8 @@ class VacancyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (arguments?.getParcelable<Vacancy>("vacancyId").toString()!!.isEmpty()) {
-            vacancyId = requireArguments().getString(ARGS_VACANCY)
-        } else {
-            vacancyId = arguments?.getParcelable<Vacancy>("vacancyId")!!.id
-        }
+        vacancyId = arguments?.getParcelable<Vacancy>("vacancyId")!!.id
+        Log.d("id", "$vacancyId")
         viewModel.getVacancyDetail(vacancyId!!)
         viewModel.vacancyState.observe(viewLifecycleOwner) { state ->
             render(state)
