@@ -56,8 +56,24 @@ class VacancyFragment : Fragment() {
         }
         binding.buttonAddToFavorites.setOnClickListener{
             viewModel.clickOnButton()
+            /*viewModel.onLikedCheck(track).observe(requireActivity()) { likeIndicator ->
+                if (!likeIndicator) {
+                    changeLikeButton(track)
+                    track.isFavourite = false
+                } else {
+                    track.isFavourite = true
+                    binding.likeButtonPlayerActivity.visibility = View.GONE
+                    binding.pressedLikeButtonPlayerActivity.visibility = View.VISIBLE
+                    binding.pressedLikeButtonPlayerActivity.setOnClickListener {
+                        Log.d("Press on dislike", ":)")
+                        viewModel.onLikeClick(track)
+                        changeLikeButton(track)
+                    }
+                }
+            }*/
         }
     }
+
 
     private fun render(stateLiveData: VacancyState) {
         when (stateLiveData) {
@@ -166,7 +182,6 @@ class VacancyFragment : Fragment() {
         initViews(data)
         binding.fragmentNotifications.visibility = VISIBLE
         Log.d("Vacancy Details:", "$data")
-
     }
 
     private fun defaultSearch() {

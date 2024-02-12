@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.vacancy
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -76,8 +77,9 @@ class VacancyViewModel(
                     }
                 )
                 viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+                    Log.d("DetailsConverterJob: ", "${convertor.map((vacancyState.value as VacancyState.Content).vacancy)}")
                     saveVacancyRepository.save(
-                        convertor.map(vacancy!!)
+                        convertor.map((vacancyState.value as VacancyState.Content).vacancy)
                     )
                 }
             }
