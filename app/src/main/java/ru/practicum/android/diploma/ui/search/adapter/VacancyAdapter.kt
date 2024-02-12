@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.search
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -18,7 +19,7 @@ class VacancyAdapter(private val clickListener: VacancyClickListener) : Recycler
 
     override fun onBindViewHolder(holder: VacancyViewHolder, position: Int) {
         holder.bind(vacancyList[position])
-        holder.itemView.setOnClickListener { clickListener.onTrackClick(vacancyList[position]) }
+        holder.itemView.setOnClickListener { clickListener.onVacancyClick(vacancyList[position]) }
     }
 
     override fun getItemCount(): Int {
@@ -26,18 +27,13 @@ class VacancyAdapter(private val clickListener: VacancyClickListener) : Recycler
     }
 
     fun interface VacancyClickListener {
-        fun onTrackClick(vacancy: Vacancy)
+        fun onVacancyClick(vacancy: Vacancy)
     }
 
-    // переделать
-    fun setVacancies(newVacancies: List<Vacancy>?) {
-        val diffCallback = Paginaciya(vacancyList, newVacancies ?: emptyList())
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        vacancyList.clear()
-        if (!newVacancies.isNullOrEmpty()) {
-            vacancyList.addAll(newVacancies)
-        }
-        diffResult.dispatchUpdatesTo(this)
+    @SuppressLint("NotifyDataSetChanged")
+    fun setItems(newList: List<Vacancy>) {
+        vacancyList = newList
+        notifyDataSetChanged()
     }
 
     fun getItemByPosition(position: Int) =

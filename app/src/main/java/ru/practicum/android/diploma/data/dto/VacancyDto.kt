@@ -6,8 +6,8 @@ import ru.practicum.android.diploma.data.dto.field.SalaryDto
 
 data class VacancyDto(
     val id: String,
-    val area: AreaDto?,
-    val employer: EmployerDto?,
     val name: String,
-    val salary: SalaryDto?,
+    val area: AreaDto,
+    val employer: EmployerDto,
+    val salary: SalaryDto?
 )

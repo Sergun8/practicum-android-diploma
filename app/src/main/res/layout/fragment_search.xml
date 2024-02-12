@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.search.SearchFragment">
+    android:id="@+id/fragment_search"
+    tools:context=".ui.search.fragment.SearchFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/search_toolbars"
+        android:id="@+id/similar_toolbars"
         style="@style/TextStyleToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -34,7 +35,7 @@
         android:paddingVertical="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_toolbars">
+        app:layout_constraintTop_toBottomOf="@+id/similar_toolbars">
 
         <EditText
             android:id="@+id/input_search_form"
@@ -68,7 +69,7 @@
             app:tint="@color/black" />
 
         <ImageView
-            android:id="@+id/close_image"
+            android:id="@+id/clear_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -110,6 +111,7 @@
         tools:listitem="" />
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/placeholder_Image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -189,5 +191,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <ProgressBar
+        android:id="@+id/bottomprogressBar"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
