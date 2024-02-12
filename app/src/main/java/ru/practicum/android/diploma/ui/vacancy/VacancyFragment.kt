@@ -94,7 +94,6 @@ class VacancyFragment : Fragment() {
                     vacancy.salaryTo,
                     vacancy.salaryCurrency
                 )
-
             Glide.with(requireContext())
                 .load(vacancy.areaUrl)
                 .placeholder(R.drawable.ic_toast)

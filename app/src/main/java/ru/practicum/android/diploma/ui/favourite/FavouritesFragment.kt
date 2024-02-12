@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.data.VacanciesAdapterForFavScreen
 import ru.practicum.android.diploma.databinding.FragmentFavouritesBinding
 import ru.practicum.android.diploma.presentation.FavouritesState
 import ru.practicum.android.diploma.ui.search.VacancyAdapter

@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.data
 
+import android.util.Log
 import ru.practicum.android.diploma.data.dto.DetailVacancyDto
 import ru.practicum.android.diploma.data.dto.VacancyDto
 import ru.practicum.android.diploma.data.dto.field.AreaDto
@@ -62,7 +63,7 @@ class Convertors {
             logoUrl = vacancy.employer?.logoUrlsDto?.original,
             logoUrl90 = vacancy.employer?.logoUrlsDto?.art90,
             logoUrl240 = vacancy.employer?.logoUrlsDto?.art240,
-            employerUrl = vacancy.employer?.name
+            employerUrl = vacancy.employer?.logoUrlsDto?.art240
         )
     }
 

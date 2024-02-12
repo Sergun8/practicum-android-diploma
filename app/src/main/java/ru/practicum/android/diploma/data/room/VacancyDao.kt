@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
+import ru.practicum.android.diploma.domain.models.Vacancy
 
 @Dao
 interface VacancyDao {
@@ -15,8 +16,8 @@ interface VacancyDao {
     @Query("DELETE FROM favourites_table WHERE id = :vacancyId")
     suspend fun deleteVacancy(vacancyId: String)
 
-    @Query("SELECT id, name, area, salary, id, salaryCurrency, salaryFrom, salaryTo, employerName, logoUrl FROM favourites_table")
-    fun getVacancyList(): Flow<List<VacancyShort>>
+    @Query("SELECT * FROM favourites_table")
+    fun getVacancyList(): Flow<List<VacancyEntity>>
 
     @Query("SELECT * FROM favourites_table WHERE id = :vacancyId LIMIT 1")
     suspend fun getVacancyById(vacancyId: String): VacancyEntity?
