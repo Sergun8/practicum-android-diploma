@@ -77,7 +77,10 @@ class VacancyViewModel(
                     }
                 )
                 viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-                    Log.d("DetailsConverterJob: ", "${convertor.map((vacancyState.value as VacancyState.Content).vacancy)}")
+                    Log.d(
+                        "DetailsConverterJob: ",
+                        "${convertor.map((vacancyState.value as VacancyState.Content).vacancy)}"
+                    )
                     saveVacancyRepository.save(
                         convertor.map((vacancyState.value as VacancyState.Content).vacancy)
                     )
@@ -85,4 +88,19 @@ class VacancyViewModel(
             }
         }
     }
+    // TODO: ()
+    /*fun onLikedCheck(track: Track): LiveData<Boolean> {
+        likeJob = viewModelScope.launch {
+            while (true) {
+                delay(PLAYER_BUTTON_PRESSING_DELAY)
+                track.trackId.let { id ->
+                    likeInteractor.favouritesCheck(id)
+                        .collect { value ->
+                            likeIndicator.postValue(value)
+                        }
+                }
+            }
+        }
+        return likeIndicator
+    }*/
 }

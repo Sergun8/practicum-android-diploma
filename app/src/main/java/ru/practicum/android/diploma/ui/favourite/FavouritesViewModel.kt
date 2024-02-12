@@ -29,7 +29,10 @@ class FavoritesViewModel(
                     when {
                         list == null -> screenStatement.postValue(FavouritesState.DbError)
                         list.isEmpty() -> screenStatement.postValue(FavouritesState.Empty)
-                        else -> screenStatement.postValue(FavouritesState.Content(list))
+                        else -> {
+                            screenStatement.postValue(FavouritesState.Content(list))
+                            Log.d("got values from db", "$list")
+                        }
                     }
                 }
             } catch (e: SQLException) {
