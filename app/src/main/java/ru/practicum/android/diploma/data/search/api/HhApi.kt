@@ -22,9 +22,10 @@ interface HhApi {
 
     @GET("vacancies/{vacancy_id}/similar_vacancies")
     suspend fun similarVacancy(@Path("vacancy_id") vacancyId: String): SearchListDto
+
     @Headers(
         "Authorization: Bearer ${BuildConfig.HH_ACCESS_TOKEN}",
-        "HH-User-Agent: HHLiteJob/1.0(ya.tarannov@yandex.ru)"
+        "HH-User-Agent: HHLiteJob (ya.tarannov@yandex.ru)"
     )
     @GET("areas/countries")
     suspend fun filterCountry(): CountryResponse

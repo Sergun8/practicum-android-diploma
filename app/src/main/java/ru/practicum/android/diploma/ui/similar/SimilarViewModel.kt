@@ -20,7 +20,7 @@ class SimilarViewModel(
         _vacancyState.postValue(state)
     }
 
-    fun getVacancyDetail(id: String) {
+    fun getSimilarDetail(id: String) {
         if (id.isNotEmpty()) {
             renderState(SimilarState.Loading)
             viewModelScope.launch {
@@ -36,7 +36,7 @@ class SimilarViewModel(
         if (searchVacancys.data != null) {
             renderState(SimilarState.Content(searchVacancys.data))
         } else {
-            renderState(SimilarState.Error)
+            renderState(SimilarState.Error(searchVacancys.code.toString()))
         }
     }
 }

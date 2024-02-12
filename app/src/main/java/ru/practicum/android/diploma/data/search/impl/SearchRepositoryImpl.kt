@@ -89,6 +89,9 @@ class SearchRepositoryImpl(private val networkClient: NetworkClient) : SearchRep
                     )
                 )
             }
+            else -> {
+                emit(Resource(code = response.resultCode))
+            }
         }
     }
 }

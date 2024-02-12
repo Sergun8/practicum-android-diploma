@@ -50,7 +50,7 @@ class RetrofitNetworkClient(
                 }
 
                 else -> {
-                    response.apply { resultCode = SERVER_ERROR }
+                    response.apply { resultCode = response.resultCode }
                 }
             }
         } catch (exception: HttpException) {

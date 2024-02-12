@@ -26,6 +26,7 @@ class SimilarVacanciesFragment : Fragment() {
     private var vacancyClickDebounce: ((Vacancy) -> Unit)? = null
     private var vacancyAdapter: VacancyAdapter? = null
     private var recyclerView: RecyclerView? = null
+    private var vacancyId: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,12 +42,12 @@ class SimilarVacanciesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        initialAdapter()
+        vacancyId = requireArguments().getString(VacancyFragment.ARGS_VACANCY)
+        viewModel.getSimilarDetail(vacancyId!!)
         viewModel.vacancyState.observe(viewLifecycleOwner) { state ->
             render(state)
         }
-
-        initialAdapter()
     }
 
     private fun initialAdapter() {
@@ -73,9 +74,10 @@ class SimilarVacanciesFragment : Fragment() {
         when (stateLiveData) {
             is SimilarState.Loading -> loading()
             is SimilarState.Content -> searchIsOk(stateLiveData.vacancies)
-            is SimilarState.Error -> error()
+            is SimilarState.Error -> error(stateLiveData.r)
         }
     }
+
     private fun loading() {
         with(binding) {
             progressBar.visibility = VISIBLE
@@ -84,13 +86,13 @@ class SimilarVacanciesFragment : Fragment() {
         }
     }
 
-    private fun error() {
+    private fun error(r: String) {
         with(binding) {
             notInternetImage.visibility = VISIBLE
             tvNotInternet.visibility = VISIBLE
-            progressBar.visibility = GONE
-            progressBar.visibility = GONE
-            tvError.visibility = GONE
+            progressBar.visibility = VISIBLE
+            tvError.visibility = VISIBLE
+            tvError.text = r
             errorVacancyImage.visibility = GONE
         }
     }
@@ -98,6 +100,7 @@ class SimilarVacanciesFragment : Fragment() {
     private fun searchIsOk(data: List<Vacancy>) {
         binding.progressBar.visibility = GONE
         recyclerView?.visibility = VISIBLE
+        binding.rvSearch.visibility = VISIBLE
         binding.notInternetImage.visibility = GONE
         binding.errorVacancyImage.visibility = GONE
         vacancyAdapter?.setItems(data)
