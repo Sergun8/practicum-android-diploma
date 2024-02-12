@@ -7,9 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.data.room.DetailsConverter
+import ru.practicum.android.diploma.data.room.VacancyDetails
 import ru.practicum.android.diploma.data.search.network.Resource
+import ru.practicum.android.diploma.domain.api.CheckOnLikeRepository
 import ru.practicum.android.diploma.domain.api.DeleteDataRepository
 import ru.practicum.android.diploma.domain.api.SaveDataRepository
 import ru.practicum.android.diploma.domain.models.DetailVacancy
@@ -20,11 +24,15 @@ class VacancyViewModel(
     private val deleteVacancyRepository: DeleteDataRepository,
     private val saveVacancyRepository: SaveDataRepository,
     private val convertor: DetailsConverter,
+    private val likeRepository: CheckOnLikeRepository
 ) : ViewModel() {
 
     private val _vacancyState = MutableLiveData<VacancyState>()
     val vacancyState: LiveData<VacancyState> = _vacancyState
-    private var vacancy: DetailVacancy? = null
+    private var vacancy: DetailVacancy = DetailVacancy("","","","",false,"","", listOf(""),"","","","","","","",
+        listOf(""),"","",0,false,0,"","","","","","")
+    private var likeIndicator = MutableLiveData<Boolean>()
+    private var likeJob: Job? = null
 
     private fun renderState(state: VacancyState) {
         _vacancyState.postValue(state)
@@ -68,7 +76,10 @@ class VacancyViewModel(
                     }
                 )
                 viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-                    deleteVacancyRepository.delete(vacancy!!.id)
+                    deleteVacancyRepository.delete((vacancyState.value as VacancyState.Content)
+                        .vacancy.id)
+                    Log.d("delete", "Deleted from fav")
+                    //Log.d("deleted","${vacancyState.value as VacancyState.Content).vacancy.id}")
                 }
             } else {
                 _vacancyState.postValue(
@@ -88,13 +99,23 @@ class VacancyViewModel(
             }
         }
     }
-    // TODO: ()
-    /*fun onLikedCheck(track: Track): LiveData<Boolean> {
+
+    fun deleteFromFav() {
+        Log.d("delete", "Deleted from fav")
+        Log.d("deleted","$vacancy")
+        viewModelScope.launch(Dispatchers.IO + CoroutineExceptionHandler { _, throwable ->
+            throwable.printStackTrace()
+        }) {
+            deleteVacancyRepository.delete(vacancy.id)
+        }
+    }
+
+    fun onLikedCheck(v: String): LiveData<Boolean> {
         likeJob = viewModelScope.launch {
             while (true) {
-                delay(PLAYER_BUTTON_PRESSING_DELAY)
-                track.trackId.let { id ->
-                    likeInteractor.favouritesCheck(id)
+                delay(BUTTON_PRESSING_DELAY)
+                v.let { id ->
+                    likeRepository.favouritesCheck(id)
                         .collect { value ->
                             likeIndicator.postValue(value)
                         }
@@ -102,5 +123,9 @@ class VacancyViewModel(
             }
         }
         return likeIndicator
-    }*/
+    }
+
+    companion object {
+        const val BUTTON_PRESSING_DELAY = 300L
+    }
 }

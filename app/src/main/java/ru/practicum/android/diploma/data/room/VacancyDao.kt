@@ -22,6 +22,9 @@ interface VacancyDao {
     @Query("SELECT * FROM favourites_table WHERE id = :vacancyId LIMIT 1")
     suspend fun getVacancyById(vacancyId: String): VacancyEntity?
 
+    @Query("SELECT * FROM favourites_table WHERE id=:searchId")
+    fun queryTrackId(searchId: String): VacancyEntity?
+
     @Update
     suspend fun updateVacancy(entity: VacancyEntity)
 }

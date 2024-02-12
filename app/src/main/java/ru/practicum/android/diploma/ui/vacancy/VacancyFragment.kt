@@ -55,24 +55,6 @@ class VacancyFragment : Fragment() {
                 SimilarVacanciesFragment.createArgs(vacancyId)
             )
         }
-        binding.buttonAddToFavorites.setOnClickListener{
-            viewModel.clickOnButton()
-            /*viewModel.onLikedCheck(track).observe(requireActivity()) { likeIndicator ->
-                if (!likeIndicator) {
-                    changeLikeButton(track)
-                    track.isFavourite = false
-                } else {
-                    track.isFavourite = true
-                    binding.likeButtonPlayerActivity.visibility = View.GONE
-                    binding.pressedLikeButtonPlayerActivity.visibility = View.VISIBLE
-                    binding.pressedLikeButtonPlayerActivity.setOnClickListener {
-                        Log.d("Press on dislike", ":)")
-                        viewModel.onLikeClick(track)
-                        changeLikeButton(track)
-                    }
-                }
-            }*/
-        }
     }
 
 
@@ -116,6 +98,10 @@ class VacancyFragment : Fragment() {
             createDiscription(vacancy.description)
             createKeySkills(vacancy.keySkillsNames!!)
             createContacts(vacancy)
+            if (vacancy.isFavorite.isFavorite){
+                binding.buttonAddToFavorites.visibility = GONE
+                binding.buttonDeleteFromFavorites.visibility = VISIBLE
+            }
         }
     }
 
@@ -182,7 +168,47 @@ class VacancyFragment : Fragment() {
         initViews(data)
         binding.fragmentNotifications.visibility = VISIBLE
         Log.d("Vacancy Details:", "$data")
+        fun changeLikeButton() {
+            data.isFavorite.isFavorite = false
+            binding.buttonAddToFavorites.visibility = VISIBLE
+            binding.buttonDeleteFromFavorites.visibility = GONE
+            binding.buttonAddToFavorites.setOnClickListener {
+                Log.d("Press on like button", ":)")
+                viewModel.clickOnButton()
+                data.isFavorite.isFavorite = true
+                binding.buttonAddToFavorites.visibility = GONE
+                binding.buttonDeleteFromFavorites.visibility = VISIBLE
+            }
+        }
+        if (data.isFavorite.isFavorite) {
+            binding.buttonAddToFavorites.visibility = GONE
+            binding.buttonDeleteFromFavorites.visibility = VISIBLE
+            binding.buttonDeleteFromFavorites.setOnClickListener {
+                Log.d("Press on dislike", ":)")
+                viewModel.clickOnButton()
+                changeLikeButton()
+            }
+        }
+        binding.buttonAddToFavorites.setOnClickListener {
+            viewModel.clickOnButton()
+            viewModel.onLikedCheck(vacancyId!!).observe(requireActivity()) { likeIndicator ->
+                if (!likeIndicator) {
+                    changeLikeButton()
+                    data.isFavorite.isFavorite = false
+                } else {
+                    data.isFavorite.isFavorite = true
+                    binding.buttonAddToFavorites.visibility = GONE
+                    binding.buttonDeleteFromFavorites.visibility = VISIBLE
+                    binding.buttonDeleteFromFavorites.setOnClickListener {
+                        Log.d("Press on dislike", ":)")
+                        viewModel.clickOnButton()
+                        changeLikeButton()
+                    }
+                }
+            }
+        }
     }
+
 
     private fun defaultSearch() {
         binding.progressBar.visibility = GONE

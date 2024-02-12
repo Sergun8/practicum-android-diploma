@@ -2,7 +2,6 @@ package ru.practicum.android.diploma.domain.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import ru.practicum.android.diploma.data.room.FavBooleanClass
 
 @Parcelize
 data class DetailVacancy(
@@ -34,6 +33,7 @@ data class DetailVacancy(
     val logoUrl240: String?,
     val employerUrl: String?,
 ) : Parcelable {
+    val isFavorite: FavBooleanClass = FavBooleanClass()
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
@@ -44,7 +44,7 @@ data class DetailVacancy(
     override fun hashCode(): Int {
         return id.hashCode()
     }
-    val isFavorite: FavBooleanClass = FavBooleanClass()
+
 }
 class FavBooleanClass {
     var isFavorite: Boolean = false

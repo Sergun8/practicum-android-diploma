@@ -1,12 +1,14 @@
 package ru.practicum.android.diploma.di
 
 import org.koin.dsl.module
+import ru.practicum.android.diploma.data.favourites.CheckOnLikeRepositoryImpl
 import ru.practicum.android.diploma.data.favourites.DeleteDataRepositoryImpl
 import ru.practicum.android.diploma.data.favourites.GetDataByIdRepositoryImpl
 import ru.practicum.android.diploma.data.favourites.GetDataRepositoryImpl
 import ru.practicum.android.diploma.data.favourites.SaveDataRepositoryImpl
 import ru.practicum.android.diploma.data.search.network.NetworkClient
 import ru.practicum.android.diploma.data.search.network.RetrofitNetworkClient
+import ru.practicum.android.diploma.domain.api.CheckOnLikeRepository
 import ru.practicum.android.diploma.domain.api.DeleteDataRepository
 import ru.practicum.android.diploma.domain.api.GetDataByIdRepository
 import ru.practicum.android.diploma.domain.api.GetDataRepository
@@ -27,5 +29,8 @@ val FavouriteModule = module {
     }
     single<NetworkClient> {
         RetrofitNetworkClient(get(),get())
+    }
+    single<CheckOnLikeRepository>{
+        CheckOnLikeRepositoryImpl(get())
     }
 }
