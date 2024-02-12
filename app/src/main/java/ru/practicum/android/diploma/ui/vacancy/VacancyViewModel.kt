@@ -100,15 +100,6 @@ class VacancyViewModel(
         }
     }
 
-    fun deleteFromFav() {
-        Log.d("delete", "Deleted from fav")
-        Log.d("deleted","$vacancy")
-        viewModelScope.launch(Dispatchers.IO + CoroutineExceptionHandler { _, throwable ->
-            throwable.printStackTrace()
-        }) {
-            deleteVacancyRepository.delete(vacancy.id)
-        }
-    }
 
     fun onLikedCheck(v: String): LiveData<Boolean> {
         likeJob = viewModelScope.launch {

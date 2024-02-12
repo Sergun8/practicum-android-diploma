@@ -24,6 +24,7 @@ import ru.practicum.android.diploma.util.ConvertSalary
 class VacancyFragment : Fragment() {
 
     private var vacancyId: String? = null
+    private var _vacancy: DetailVacancy? = null
     private var _binding: FragmentVacancyBinding? = null
     private val binding get() = _binding!!
     private val viewModel: VacancyViewModel by viewModel<VacancyViewModel>()
@@ -55,8 +56,38 @@ class VacancyFragment : Fragment() {
                 SimilarVacanciesFragment.createArgs(vacancyId)
             )
         }
+        viewModel.onLikedCheck(vacancyId!!).observe(requireActivity()) { likeIndicator ->
+            fun changeLikeButton() {
+                _vacancy!!.isFavorite.isFavorite = false
+                binding.buttonAddToFavorites.visibility = VISIBLE
+                binding.buttonDeleteFromFavorites.visibility = GONE
+                binding.buttonAddToFavorites.setOnClickListener {
+                    Log.d("Press on like button", ":)")
+                    viewModel.clickOnButton()
+                    _vacancy!!.isFavorite.isFavorite = true
+                    binding.buttonAddToFavorites.visibility = GONE
+                    binding.buttonDeleteFromFavorites.visibility = VISIBLE
+                }
+            }
+            if (!likeIndicator) {
+                _vacancy!!.isFavorite.isFavorite = false
+            } else {
+                binding.buttonAddToFavorites.visibility = GONE
+                binding.buttonDeleteFromFavorites.visibility = VISIBLE
+                binding.buttonDeleteFromFavorites.setOnClickListener {
+                    Log.d("Press on dislike", ":(")
+                    viewModel.clickOnButton()
+                    changeLikeButton()
+                }
+            }
+        }
     }
 
+    private fun reRender(){
+        viewModel.vacancyState.observe(viewLifecycleOwner) { state ->
+            render(state)
+        }
+    }
 
     private fun render(stateLiveData: VacancyState) {
         when (stateLiveData) {
@@ -68,6 +99,7 @@ class VacancyFragment : Fragment() {
     }
 
     private fun initViews(vacancy: DetailVacancy) {
+        _vacancy = vacancy
         with(binding) {
             jobName.text = vacancy.name
             jobSalary.text =
@@ -168,45 +200,6 @@ class VacancyFragment : Fragment() {
         initViews(data)
         binding.fragmentNotifications.visibility = VISIBLE
         Log.d("Vacancy Details:", "$data")
-        fun changeLikeButton() {
-            data.isFavorite.isFavorite = false
-            binding.buttonAddToFavorites.visibility = VISIBLE
-            binding.buttonDeleteFromFavorites.visibility = GONE
-            binding.buttonAddToFavorites.setOnClickListener {
-                Log.d("Press on like button", ":)")
-                viewModel.clickOnButton()
-                data.isFavorite.isFavorite = true
-                binding.buttonAddToFavorites.visibility = GONE
-                binding.buttonDeleteFromFavorites.visibility = VISIBLE
-            }
-        }
-        if (data.isFavorite.isFavorite) {
-            binding.buttonAddToFavorites.visibility = GONE
-            binding.buttonDeleteFromFavorites.visibility = VISIBLE
-            binding.buttonDeleteFromFavorites.setOnClickListener {
-                Log.d("Press on dislike", ":)")
-                viewModel.clickOnButton()
-                changeLikeButton()
-            }
-        }
-        binding.buttonAddToFavorites.setOnClickListener {
-            viewModel.clickOnButton()
-            viewModel.onLikedCheck(vacancyId!!).observe(requireActivity()) { likeIndicator ->
-                if (!likeIndicator) {
-                    changeLikeButton()
-                    data.isFavorite.isFavorite = false
-                } else {
-                    data.isFavorite.isFavorite = true
-                    binding.buttonAddToFavorites.visibility = GONE
-                    binding.buttonDeleteFromFavorites.visibility = VISIBLE
-                    binding.buttonDeleteFromFavorites.setOnClickListener {
-                        Log.d("Press on dislike", ":)")
-                        viewModel.clickOnButton()
-                        changeLikeButton()
-                    }
-                }
-            }
-        }
     }
 
 
