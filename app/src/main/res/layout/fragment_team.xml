@@ -73,4 +73,16 @@
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/developer_3" />
+
+    <TextView
+        android:id="@+id/developer_5"
+        style="@style/TextStyleMedium16_500"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
+        android:text="@string/developer5"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/developer_4" />
 </androidx.constraintlayout.widget.ConstraintLayout>
