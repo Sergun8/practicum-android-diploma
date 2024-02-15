@@ -1,6 +1,6 @@
 [versions]
 
-glide = "4.15.1"
+
 java = "VERSION_1_8"
 
 # Build constants
@@ -10,10 +10,11 @@ retrofit = "2.9.0"
 roomKtx = "2.6.1"
 roomVersion = "2.6.1"
 targetSdk = "33"
+glide = "4.15.1"
 
 # Detekt
 detekt = "1.23.3"
-detektTwitterComposeRules ="0.0.26"
+detektTwitterComposeRules = "0.0.26"
 org-jetbrains-kotlin-android = "1.9.0"
 
 [libraries]
@@ -51,12 +52,12 @@ koin = "io.insert-koin:koin-android:3.5.3"
 
 #Retrofit
 gson = "com.google.code.gson:gson:2.10.1"
-retrofit = {module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit"}
-retrofit-converter-gson = {module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 
 #Glide
-glide =  "com.github.bumptech.glide:glide:4.15.1"
-compiler = "com.github.bumptech.glide:compiler:4.15.1"
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide"}
 
 #Room
 room-runtime = "androidx.room:room-runtime:2.6.1"
@@ -66,8 +67,8 @@ room-ktx = "androidx.room:room-ktx:2.6.1"
 #Fragment
 fragment-ktx = "androidx.fragment:fragment-ktx:1.6.2"
 viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
-navigation-fragment-ktx = "androidx.navigation:navigation-fragment-ktx:2.7.6"
-navigation-ui-ktx = "androidx.navigation:navigation-ui-ktx:2.7.6"
+navigation-fragment-ktx = "androidx.navigation:navigation-fragment-ktx:2.7.7"
+navigation-ui-ktx = "androidx.navigation:navigation-ui-ktx:2.7.7"
 
 #Coroutines
 coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"

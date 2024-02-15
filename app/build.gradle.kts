@@ -52,23 +52,34 @@ dependencies {
     testImplementation(libs.unitTests.junit)
     // endregion
 
-    // region UI tests
-    androidTestImplementation(libs.uiTests.junitExt)
-    androidTestImplementation(libs.uiTests.espressoCore)
-    // endregion
-
+    // koin
     implementation(libs.koin)
+
+    // Retrofit
     implementation(libs.gson)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+
+    // Glide
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
+
+    // Room
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)
     implementation(libs.room.ktx)
+
+    // Fragment
     implementation(libs.fragment.ktx)
     implementation(libs.viewpager2)
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
+
+    // Coroutines
     implementation(libs.coroutines)
+
+    // region UI tests
+    androidTestImplementation(libs.uiTests.junitExt)
+    androidTestImplementation(libs.uiTests.espressoCore)
+    // endregion
 }
